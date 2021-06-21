@@ -7,17 +7,18 @@ module.exports = {
   css: {
     loaderOptions: {
       scss: {
-        additionalData: ``,
+        additionalData: '',
         // @import "@/assets/scss/app.scss";
       },
-    }
+    },
   },
-  chainWebpack: config => {
+  chainWebpack: (config) => {
     config
       .plugin('html')
-      .tap(args => {
-        args[0].title = "Music App";
+      .tap((args) => {
+        // eslint-disable-next-line
+        args[0].title = 'Music App';
         return args;
-      })
-  }
-}
+      });
+  },
+};
