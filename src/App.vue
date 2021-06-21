@@ -271,3 +271,7 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+// This comment line required for importing scss files
+</style>
