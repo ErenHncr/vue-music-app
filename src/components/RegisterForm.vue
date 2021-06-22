@@ -13,6 +13,7 @@
       values: $event,
       onRegisterInSubmission,
       onRegisterSuccess,
+      onRegisterError,
     })">
     <!-- Name -->
     <div class="mb-3">
@@ -169,6 +170,11 @@ export default {
     onRegisterSuccess() {
       this.reg_alert_variant = 'bg-green-500';
       this.reg_alert_msg = 'Success! Your account has been created.';
+    },
+    onRegisterError() {
+      this.reg_in_submission = false;
+      this.reg_alert_variant = 'bg-red-500';
+      this.reg_alert_msg = 'An unexpected error occured. Please try again later.';
     },
   },
 };
