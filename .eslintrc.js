@@ -13,6 +13,12 @@ module.exports = {
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    'object-curly-newline': ['error', {
+      'ObjectExpression': { multiline: true, minProperties: 3 },
+      'ObjectPattern': { multiline: true, minProperties: 3 },
+      'ImportDeclaration': { multiline: true, minProperties: 3 },
+      'ExportDeclaration': { multiline: true, minProperties: 3 },
+    }],
   },
   overrides: [
     {
