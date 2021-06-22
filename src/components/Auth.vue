@@ -63,7 +63,7 @@
           />
           <!-- Registration Form -->
           <AppRegisterForm
-            v-else-if="tab === 'register'"
+            v-if="tab === 'register'"
             @register = "onRegister"
           />
         </div>
@@ -73,6 +73,7 @@
 </template>
 
 <script>
+import { auth, usersCollection } from '@/includes/firebase';
 import { mapMutations, mapState } from 'vuex';
 import AppRegisterForm from '@/components/RegisterForm.vue';
 import AppLoginForm from '@/components/LoginForm.vue';
@@ -89,15 +90,41 @@ export default {
     };
   },
   methods: {
-    ...mapMutations(['toggleAuthModal']),
-    onRegister({ values, onRegisterInSubmission, onRegisterSuccess }) {
+    ...mapMutations(['toggleAuthModal', 'toggleAuth']),
+    async onRegister({
+      values,
+      onRegisterInSubmission,
+      onRegisterSuccess,
+      onRegisterError,
+    }) {
       onRegisterInSubmission();
-      setTimeout(() => {
-        onRegisterSuccess();
-      }, 1500);
-      console.log(values);
+
+      let userCred = null;
+      try {
+        userCred = await auth.createUserWithEmailAndPassword(
+          values.email, values.password,
+        );
+      } catch (error) {
+        onRegisterError();
+        return;
+      }
+
+      try {
+        const { name, email, age, country } = values;
+        await usersCollection.add({ name, email, age, country });
+      } catch (error) {
+        onRegisterError();
+        return;
+      }
+
+      this.toggleAuth();
+      onRegisterSuccess();
+      console.log(userCred);
     },
-    onLogin({ values, onLoginInSubmission, onLoginSuccess }) {
+    onLogin({
+      values,
+      onLoginInSubmission,
+      onLoginSuccess }) {
       onLoginInSubmission();
       setTimeout(() => {
         onLoginSuccess();
