@@ -73,7 +73,6 @@
 </template>
 
 <script>
-import { auth, usersCollection } from '@/includes/firebase';
 import { mapMutations, mapState } from 'vuex';
 import AppRegisterForm from '@/components/RegisterForm.vue';
 import AppLoginForm from '@/components/LoginForm.vue';
@@ -85,9 +84,7 @@ export default {
     AppLoginForm,
   },
   data() {
-    return {
-      tab: 'login',
-    };
+    return { tab: 'login' };
   },
   methods: {
     ...mapMutations(['toggleAuthModal', 'toggleAuth']),
@@ -99,37 +96,31 @@ export default {
     }) {
       onRegisterInSubmission();
 
-      let userCred = null;
       try {
-        userCred = await auth.createUserWithEmailAndPassword(
-          values.email, values.password,
-        );
+        await this.$store.dispatch('register', values);
       } catch (error) {
         onRegisterError();
         return;
       }
 
-      try {
-        const { name, email, age, country } = values;
-        await usersCollection.add({ name, email, age, country });
-      } catch (error) {
-        onRegisterError();
-        return;
-      }
-
-      this.toggleAuth();
       onRegisterSuccess();
-      console.log(userCred);
+      window.location.reload();
     },
-    onLogin({
+    async onLogin({
       values,
       onLoginInSubmission,
-      onLoginSuccess }) {
+      onLoginSuccess,
+      onLoginError,
+    }) {
       onLoginInSubmission();
-      setTimeout(() => {
-        onLoginSuccess();
-      }, 1500);
-      console.log(values);
+      try {
+        await this.$store.dispatch('login', values);
+      } catch (error) {
+        onLoginError();
+        return;
+      }
+      onLoginSuccess();
+      window.location.reload();
     },
   },
   computed: {
