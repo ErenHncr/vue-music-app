@@ -3,11 +3,11 @@ import 'firebase/auth';
 import 'firebase/firestore';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyDEvrBD5kO_m2pAJt5-ORkSEqIFFZlPKy8',
-  authDomain: 'vue-music-app-b26ae.firebaseapp.com',
-  projectId: 'vue-music-app-b26ae',
-  storageBucket: 'vue-music-app-b26ae.appspot.com',
-  appId: '1:644027463417:web:b45ed53f0539b575be9428',
+  apiKey: process.env.FIREBASE_API_KEY,
+  authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.FIREBASE_PROJECT_ID,
+  storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+  appId: process.env.FIREBASE_APP_ID,
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
