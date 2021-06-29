@@ -8,7 +8,13 @@ const envConfiguration = process.env.NODE_ENV === 'development'
         new Dotenv({ path: './.env.local' }),
       ],
     },
-  } : {};
+  } : {
+    configureWebpack: {
+      plugins: [
+        new Dotenv(),
+      ],
+    },
+  };
 
 module.exports = {
   // this line added for fixing blank page in index.html
