@@ -23,7 +23,7 @@ const routes = [
     meta: { requiresAuth: true },
     component: Manage,
     beforeEnter: (to, from, next) => {
-      console.log('Manage guard');
+      // console.log('Manage guard');
       next();
     },
   },
