@@ -151,9 +151,7 @@ export default {
         country: 'required|country_excluded:Antarctica',
         tos: 'tos',
       },
-      userData: {
-        country: 'USA',
-      },
+      userData: { country: 'USA' },
       reg_in_submission: false,
       reg_show_alert: false,
       reg_alert_variant: 'bg-blue-500',
