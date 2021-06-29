@@ -1,4 +1,6 @@
 // vue.config.js
+const Dotenv = require('dotenv-webpack');
+
 module.exports = {
   // this line added for fixing blank page in index.html
   publicPath: process.env.NODE_ENV === 'production'
@@ -20,5 +22,11 @@ module.exports = {
         args[0].title = 'Music App';
         return args;
       });
+  },
+  // added for using enviroment variables
+  configureWebpack: {
+    plugins: [
+      new Dotenv({ path: './.env.local' }),
+    ],
   },
 };
