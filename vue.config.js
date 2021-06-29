@@ -1,8 +1,15 @@
 // vue.config.js
 const Dotenv = require('dotenv-webpack');
 
-const envObj = process.env.NODE_ENV === 'production'
-  ? {} : { path: './.env.local' };
+const envConfiguration = process.env.NODE_ENV === 'development'
+  ? {
+    configureWebpack: {
+      plugins: [
+        new Dotenv({ path: './.env.local' }),
+      ],
+    },
+  } : {};
+
 module.exports = {
   // this line added for fixing blank page in index.html
   publicPath: process.env.NODE_ENV === 'production'
@@ -26,9 +33,5 @@ module.exports = {
       });
   },
   // added for using enviroment variables
-  configureWebpack: {
-    plugins: [
-      new Dotenv(envObj),
-    ],
-  },
+  ...envConfiguration,
 };
