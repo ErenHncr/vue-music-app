@@ -7,8 +7,12 @@
     <div class="container mx-auto flex items-center">
       <!-- Play/Pause Button -->
       <button type="button" class="z-50 h-24 w-24 text-3xl bg-white text-black rounded-full
-        focus:outline-none" @click.prevent="newSong(song)">
-        <i class="fas fa-play"></i>
+        focus:outline-none" @click.prevent="onToggleAudio">
+        <i class="fas" :class="{
+          'fa-circle-notch fa-spin': loading,
+          'fa-play': !isCurrentSongPlaying && !loading,
+          'fa-pause': isCurrentSongPlaying && !loading,
+        }"></i>
       </button>
       <div class="z-50 text-left ml-8">
         <!-- Song Info -->
@@ -89,12 +93,15 @@
 import {
   auth, songsCollection, commentsCollection,
 } from '@/includes/firebase';
-import { mapState, mapActions } from 'vuex';
+import {
+  mapGetters, mapState, mapActions,
+} from 'vuex';
 
 export default {
   name: 'Song',
   data() {
     return {
+      loading: false,
       song: {},
       schema: { comment: 'required|min:3' },
       comment_in_submission: false,
@@ -106,7 +113,8 @@ export default {
     };
   },
   computed: {
-    ...mapState(['userLoggedIn']),
+    ...mapGetters(['playing']),
+    ...mapState(['userLoggedIn', 'currentSong']),
     sortedComments() {
       return this.comments.slice().sort((a, b) => {
         // Latest
@@ -116,6 +124,11 @@ export default {
         // Oldest
         return new Date(a?.datePosted) - new Date(b?.datePosted);
       });
+    },
+    isCurrentSongPlaying() {
+      return this.playing
+        && (Boolean(this.song?.url) && Boolean(this.currentSong?.url))
+        && this.song?.url === this.currentSong?.url;
     },
   },
   async created() {
@@ -134,7 +147,7 @@ export default {
     this.getComments();
   },
   methods: {
-    ...mapActions(['newSong']),
+    ...mapActions(['newSong', 'toggleAudio']),
     // resetForm comes from VeeForm's submit function
     async addComment(values, { resetForm }) {
       this.comment_in_submission = true;
@@ -177,6 +190,15 @@ export default {
           ...doc.data(),
         });
       });
+    },
+    onToggleAudio() {
+      if (this.currentSong?.url !== this.song?.url) {
+        this.loading = true;
+        this.newSong(this.song);
+        this.loading = false;
+      } else {
+        this.toggleAudio();
+      }
     },
   },
   watch: {
