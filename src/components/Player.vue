@@ -16,8 +16,9 @@
         </button>
       </div>
       <!-- Current Position -->
-      <div class="float-left w-7 h-7 leading-3 text-gray-400 mt-0 text-lg w-14 ml-5 mt-1">
+      <div class="flex float-left w-7 h-7 leading-3 text-gray-400 mt-0 text-lg w-14 ml-5 mr-2 mt-1">
         <span class="player-currenttime">{{ seek }}</span>
+        <BarWave class="ml-3" :isPlaying="playing" />
       </div>
       <!-- Scrub -->
       <div class="float-left w-7 h-7 leading-3 ml-7 mt-2 player-scrub">
@@ -60,9 +61,11 @@
 import {
   mapActions, mapGetters, mapState,
 } from 'vuex';
+import BarWave from './BarWave.vue';
 
 export default {
   name: 'Player',
+  components: { BarWave },
   computed: {
     ...mapGetters(['playing']),
     ...mapState(['seek', 'duration', 'playerProgress', 'currentSong']),

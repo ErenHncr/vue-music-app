@@ -75,7 +75,7 @@ export default createStore({
         state.sound.unload();
       }
       commit('newSong', payload);
-
+      state.sound.volume(0.3);
       state.sound.play();
 
       state.sound.on('play', () => {
