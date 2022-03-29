@@ -1,7 +1,11 @@
 <template>
   <AppHeader />
 
-  <router-view />
+  <router-view v-slot="{ Component }">
+    <transition name="fade" mode="out-in">
+      <component :is="Component"></component>
+    </transition>
+  </router-view>
 
   <!-- Player -->
   <AppPlayer />
@@ -29,5 +33,16 @@ export default {
 </script>
 
 <style lang="scss">
-// This comment line required for importing scss files
+.fade-enter {
+  &-from {
+    opacity: 0;
+  }
+  &-active {
+    transition: all 0.5s linear;
+  }
+  &-leave-to {
+    transition: all 0.5s linear;
+    opacity: 0;
+  }
+}
 </style>
