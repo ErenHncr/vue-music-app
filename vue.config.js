@@ -4,6 +4,7 @@ module.exports = {
   publicPath: process.env.NODE_ENV === 'production'
     ? './'
     : '/',
+
   css: {
     loaderOptions: {
       scss: {
@@ -12,6 +13,7 @@ module.exports = {
       },
     },
   },
+
   chainWebpack: (config) => {
     config
       .plugin('html')
@@ -20,5 +22,17 @@ module.exports = {
         args[0].title = 'Music App';
         return args;
       });
+  },
+
+  pluginOptions: {
+    i18n: {
+      locale: 'en',
+      fallbackLocale: 'en',
+      localeDir: 'locales',
+      enableLegacy: true,
+      runtimeOnly: false,
+      compositionOnly: true,
+      fullInstall: true,
+    },
   },
 };

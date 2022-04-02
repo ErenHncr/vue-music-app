@@ -2,14 +2,15 @@
   "name": "music",
   "version": "0.1.0",
   "private": true,
+  "author": "Eren Hançer (github.com/ErenHncr)",
   "homepage": "https://github.com/ErenHncr/vue-music-app",
-  "author": "Eren Hançer (github.com/ErenHncr/)",
   "scripts": {
     "serve": "vue-cli-service serve --open",
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
     "test:e2e": "vue-cli-service test:e2e",
     "lint": "vue-cli-service lint",
+    "i18n:report": "vue-cli-service i18n:report --src \"./src/**/*.?(js|vue)\" --locales \"./src/locales/**/*.json\"",
     "lint:watch": "esw -w --fix"
   },
   "dependencies": {
@@ -23,10 +24,12 @@
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.2",
     "vee-validate": "^4.4.5",
     "vue": "^3.0.0",
+    "vue-i18n": "^9.1.0",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0"
   },
   "devDependencies": {
+    "@intlify/vue-i18n-loader": "^3.0.0",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-e2e-cypress": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
@@ -46,6 +49,7 @@
     "sass-loader": "^10",
     "stylelint": "^13.13.1",
     "typescript": "~3.9.3",
+    "vue-cli-plugin-i18n": "~2.3.1",
     "vue-cli-plugin-tailwind": "^2.0.6",
     "vue-jest": "^5.0.0-0"
   }

@@ -121,7 +121,14 @@
         value="1"
         type="checkbox"
         class="w-4 h-4 float-left -ml-6 mt-1 rounded" />
-      <label class="inline-block">Accept terms of service</label>
+      <i18n-t
+        keypath="register.accept"
+        tag="label"
+        class="inline-block"
+      >
+        <a href="#">{{ $t('register.TOS')}}</a>
+        Accept terms of service
+      </i18n-t>
       <VeeErrorMessage
         class="block text-red-600"
         name="tos" />
