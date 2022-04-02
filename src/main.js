@@ -10,6 +10,7 @@ import i18n from './includes/i18n';
 import './assets/tailwind.css';
 import './assets/css/main.css';
 import './assets/scss/main.scss';
+import './registerServiceWorker';
 
 let app;
 
