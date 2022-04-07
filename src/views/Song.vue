@@ -119,7 +119,10 @@ export default {
   },
   computed: {
     ...mapGetters(['playing']),
-    ...mapState(['userLoggedIn', 'currentSong']),
+    ...mapState({
+      userLoggedIn: (state) => state.auth.userLoggedIn,
+      currentSong: (state) => state.player.currentSong,
+    }),
     sortedComments() {
       return this.comments.slice().sort((a, b) => {
         // Latest
@@ -136,20 +139,25 @@ export default {
         && this.song?.url === this.currentSong?.url;
     },
   },
-  async created() {
-    const docSnapshot = await songsCollection.doc(this.$route.params.id).get();
-    if (!docSnapshot.exists) {
-      this.$router.push({ name: 'home' });
-      return;
-    }
+  async beforeRouteEnter(to, from, next) {
+    const docSnapshot = await songsCollection.doc(to.params.id).get();
 
-    const { sort } = this.$route.query;
-    if (['1', '2'].includes(sort)) {
-      this.sort = sort;
-    }
+    next((vm) => {
+      if (!docSnapshot.exists) {
+        vm.$router.push({ name: 'home' });
+        return;
+      }
 
-    this.song = docSnapshot.data();
-    this.getComments();
+      const { sort } = vm.$route.query;
+      if (['1', '2'].includes(sort)) {
+        // eslint-disable-next-line no-param-reassign
+        vm.sort = sort;
+      }
+
+      // eslint-disable-next-line no-param-reassign
+      vm.song = docSnapshot.data();
+      vm.getComments();
+    });
   },
   methods: {
     ...mapActions(['newSong', 'toggleAudio']),
