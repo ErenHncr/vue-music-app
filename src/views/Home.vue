@@ -37,7 +37,7 @@
         </div>
         <!-- Playlist -->
         <ol id="playlist">
-          <AppSongItem
+          <SongItem
             v-for="song in songs"
             :key="song.docID"
             :song="song" />
@@ -50,12 +50,12 @@
 
 <script>
 import { songsCollection } from '@/includes/firebase';
-import AppSongItem from '@/components/SongItem.vue';
+import SongItem from '@/components/SongItem.vue';
 import IconSecondary from '@/directives/icon-secondary';
 
 export default {
   name: 'Home',
-  components: { AppSongItem },
+  components: { SongItem },
   directives: { 'icon-secondary': IconSecondary },
   data() {
     return {
