@@ -10,6 +10,7 @@
     "test:unit": "vue-cli-service test:unit",
     "test:unit:update": "vue-cli-service test:unit -u",
     "test:e2e": "vue-cli-service test:e2e",
+    "test:e2e:headless": "vue-cli-service test:e2e --headless",
     "lint": "vue-cli-service lint",
     "i18n:report": "vue-cli-service i18n:report --src \"./src/**/*.?(js|vue)\" --locales \"./src/locales/**/*.json\"",
     "lint:watch": "esw -w --fix"
