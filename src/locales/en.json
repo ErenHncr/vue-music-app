@@ -11,5 +11,12 @@
   },
   "song": {
     "comment_count": "No Comment | 1 Comment | {count} Comments"
+  },
+  "views": {
+    "listen-now": {
+      "head": "Discover new music every day.",
+      "subhead": "Get playlists and albums inspired by the artists and genres you’re listening to. 1 month free, then $9.99/month.",
+      "actionButton": "Try It Free"
+    }
   }
 }

@@ -1,31 +1,29 @@
 <template>
-  <AppHeader />
+  <!-- <Header /> -->
+  <div class="app-container">
+    <Navigation />
 
-  <router-view v-slot="{ Component }">
-    <transition name="fade" mode="out-in">
-      <component :is="Component"></component>
-    </transition>
-  </router-view>
+  <main class="page-container">
+    <HeaderAuth />
+    <router-view v-slot="{ Component }">
+      <transition name="fade" mode="out-in">
+        <component :is="Component"></component>
+      </transition>
+    </router-view>
+  </main>
 
-  <!-- Player -->
-  <AppPlayer />
+    <!-- Player -->
+    <Player />
 
-  <!-- Auth Modal -->
-  <AuthModal />
+    <!-- Auth Modal -->
+    <AuthModal />
+  </div>
 </template>
 
 <script>
-import AppPlayer from '@/components/Player.vue';
-import AppHeader from '@/components/Header.vue';
-import AuthModal from '@/components/Auth.vue';
 
 export default {
   name: 'App',
-  components: {
-    AppHeader,
-    AuthModal,
-    AppPlayer,
-  },
   created() {
     this.$store.dispatch('init_login');
   },

@@ -13,7 +13,6 @@ import './registerServiceWorker';
 import 'nprogress/nprogress.css';
 import './assets/tailwind.css';
 import './assets/css/main.css';
-import './assets/scss/main.scss';
 
 ProgressBar(router);
 

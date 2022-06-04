@@ -1,0 +1,42 @@
+@import "fonts.scss";
+@import "variables.scss";
+
+body {
+  font-family: $body-fontFamily;
+  color: $body-color;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    color: $body-color;
+  }
+}
+
+/* text-yellow-500 */
+a:hover {
+  color: #fa586a;
+  text-decoration: none;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: row;
+  height: calc(100vh - 64px);
+}
+
+.page-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background-color: $pageBg;
+}
+
+.svg-white {
+  // #fff
+  filter: invert(93%) sepia(79%) saturate(5113%) hue-rotate(184deg) brightness(137%) contrast(100%);
+}
+
+.svg-red {
+  // #fa586a
+  filter: invert(41%) sepia(33%) saturate(1762%) hue-rotate(313deg) brightness(112%) contrast(96%);
+}

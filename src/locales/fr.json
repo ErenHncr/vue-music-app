@@ -12,5 +12,12 @@
   },
   "song": {
     "comment_count": ""
+  },
+  "views": {
+    "listen-now": {
+      "head": "Découvrez de nouveaux morceaux tous les jours",
+      "subhead": "Profitez de playlists et d’albums qui s’inspirent des artistes et des genres que vous écoutez. Gratuit pendant 1 mois, puis 9,99 €/mois.",
+      "actionButton": "Essayer gratuitement"
+    }
   }
 }

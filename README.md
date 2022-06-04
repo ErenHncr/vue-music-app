@@ -29,3 +29,15 @@ yarn test:e2e
 ```
 yarn lint
 ```
+
+# Apple Music Clone
+
+### Todos
+- [ ] add input field for search
+- [ ] add overflow scroll and style for page container
+- [ ] add button type link, button, submit etc.
+- [ ] HeaderAuth
+  - [ ] - add signin button icon for bigger screen sizes.
+
+### Completed ✓
+- [x] Completed task title  

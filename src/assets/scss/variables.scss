@@ -1,0 +1,42 @@
+$pageBg: #1f1f1f;
+
+$body-fontFamily: -apple-system, BlinkMacSystemFont, "SF Pro", "Helvetica Neue", Arial, sans-serif;
+$body-color: rgba(255, 255, 255, 0.95);
+
+// Navigation-start
+$nav-width: 260px;
+$nav-bg-color: #222222;
+$nav-border-rule: rgba(255, 255, 255, 0.1);
+
+$nav-list-bg-color: rgba(
+  $color: #ebebf5,
+  $alpha: 0.01,
+);
+
+$nav-list-item-font-size: 15px;
+$nav-list-item-line-height: 22px;
+$nav-list-item-color: #f5f5f7;
+
+$nav-list-item-link-icon-color: #fa586a;
+$nav-list-item-link__active-bg-color: rgba(235, 235, 245, 0.1);
+// Navigation-end
+// Button-start
+$btn-color: #000;
+$btn-bg-color: #FFF;
+$btn-height: 32px;
+$btn-font-size: 13px;
+$btn-font-weight: 500;
+$btn--focus-visible-box-shadow: 0 0 0 4px rgba(250,88,106, .6);
+
+$btn-colors: (
+  "primary": (
+    "text": #000,
+    "bg": #FFF,
+  ),
+  "secondary": (
+    "text": #FFF,
+    "bg": #d60017,
+    "bg--active": #bb0000,
+  ),
+);
+// Button-end

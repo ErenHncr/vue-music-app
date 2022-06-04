@@ -5,14 +5,7 @@ module.exports = {
     ? './'
     : '/',
 
-  css: {
-    loaderOptions: {
-      scss: {
-        additionalData: '',
-        // @import "@/assets/scss/app.scss";
-      },
-    },
-  },
+  css: { loaderOptions: { scss: { additionalData: '@import "@/assets/scss/main.scss";' } } },
 
   chainWebpack: (config) => {
     config
