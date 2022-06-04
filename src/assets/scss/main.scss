@@ -12,10 +12,14 @@ body {
   }
 }
 
-/* text-yellow-500 */
 a:hover {
   color: #fa586a;
   text-decoration: none;
+}
+
+a:focus-visible {
+  box-shadow: $btn--focus-visible-box-shadow;
+  outline: none;
 }
 
 .app-container {

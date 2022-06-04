@@ -96,10 +96,10 @@ export default {
   border-inline-end-width: 1px;
 
   &-header {
-    width: 100%;
     margin: 17px 0 18px 0;
 
     &-link {
+      display: block;
       &-logo {
         margin-left: 5px;
       }
