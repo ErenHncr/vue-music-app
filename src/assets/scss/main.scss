@@ -12,14 +12,15 @@ body {
   }
 }
 
-a:hover {
-  color: #fa586a;
-  text-decoration: none;
-}
-
-a:focus-visible {
-  box-shadow: $btn--focus-visible-box-shadow;
-  outline: none;
+a {
+  &:hover {
+    color: #fa586a;
+    text-decoration: none;
+  }
+  &:focus-visible {
+    box-shadow: $btn--focus-visible-box-shadow;
+    outline: none;
+  }
 }
 
 .app-container {
@@ -32,15 +33,18 @@ a:focus-visible {
   display: flex;
   flex-direction: column;
   width: 100%;
+  // height: 100%;
   background-color: $pageBg;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .svg-white {
-  // #fff
+  // #fff;
   filter: invert(93%) sepia(79%) saturate(5113%) hue-rotate(184deg) brightness(137%) contrast(100%);
 }
 
 .svg-red {
-  // #fa586a
+  // #fa586a;
   filter: invert(41%) sepia(33%) saturate(1762%) hue-rotate(313deg) brightness(112%) contrast(96%);
 }

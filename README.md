@@ -33,11 +33,12 @@ yarn lint
 # Apple Music Clone
 
 ### Todos
-- [ ] add input field for search
-- [ ] add overflow scroll and style for page container
-- [ ] add button type link, button, submit etc.
+- [ ] Listen Now
+  - [ ] add modal for action button
 - [ ] HeaderAuth
-  - [ ] - add signin button icon for bigger screen sizes.
+  - [ ] add signin button icon for bigger screen sizes.
+  - [ ] modal design for signin.
+- [ ] add input field for search
 
 ### Completed ✓
-- [x] Completed task title  
+- [x] add overflow scroll and style for page container

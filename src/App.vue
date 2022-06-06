@@ -16,7 +16,7 @@
     <Player />
 
     <!-- Auth Modal -->
-    <AuthModal />
+    <Auth />
   </div>
 </template>
 
