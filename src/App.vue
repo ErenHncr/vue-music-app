@@ -4,7 +4,7 @@
     <Navigation />
 
   <main class="page-container">
-    <HeaderAuth />
+    <Header />
     <router-view v-slot="{ Component }">
       <transition name="fade" mode="out-in">
         <component :is="Component"></component>
@@ -13,19 +13,21 @@
   </main>
 
     <!-- Player -->
-    <Player />
+    <!-- <Player /> -->
 
     <!-- Auth Modal -->
-    <Auth />
+    <!-- <Auth /> -->
   </div>
 </template>
 
 <script>
+import Header from '@/components/partials/Header.vue';
 
 export default {
   name: 'App',
+  components: { Header },
   created() {
-    this.$store.dispatch('init_login');
+    this.$store.dispatch('auth/init_login', null, { root: true });
   },
 };
 </script>

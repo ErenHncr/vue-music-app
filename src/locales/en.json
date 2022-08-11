@@ -1,4 +1,5 @@
 {
+  "locale": "English",
   "home": {
     "listen": "Listen to Great Music!"
   },
@@ -18,5 +19,17 @@
       "subhead": "Get playlists and albums inspired by the artists and genres you’re listening to. 1 month free, then $9.99/month.",
       "actionButton": "Try It Free"
     }
+  },
+  "auth": {
+    "email": "Email",
+    "password": "Password",
+    "signin": {
+      "title": "Sign in with your email",
+      "subtitle": "You will be signed in to Apple Music",
+      "error": "Your email or password is incorrect."
+    }
+  },
+  "header": {
+    "signin": "Sign In"
   }
 }

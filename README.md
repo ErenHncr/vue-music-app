@@ -33,6 +33,7 @@ yarn lint
 # Apple Music Clone
 
 ### Todos
+- [ ] update Modal component width and height for mobile devices
 - [ ] Listen Now
   - [ ] add modal for action button
 - [ ] HeaderAuth
@@ -42,3 +43,7 @@ yarn lint
 
 ### Completed ✓
 - [x] add overflow scroll and style for page container
+- [x] use veevalidate useForm to validate form errors and update vue component to composition api
+
+
+

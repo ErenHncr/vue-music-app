@@ -1,8 +1,10 @@
 import { auth, usersCollection } from '@/includes/firebase';
 
 export default {
-  // namespaced: true,
+  namespaced: true,
   state: {
+    pending: false,
+    error: null,
     authModalShow: false,
     userLoggedIn: false,
   },
@@ -13,6 +15,22 @@ export default {
     },
     toggleAuth: (state) => {
       state.userLoggedIn = !state.userLoggedIn;
+    },
+    authStart: (state) => {
+      state.pending = true;
+      state.error = null;
+    },
+    loginSuccess: (state) => {
+      state.pending = false;
+      state.userLoggedIn = true;
+    },
+    authFail: (state, error) => {
+      state.pending = false;
+      state.error = error;
+    },
+    authReset: (state) => {
+      state.pending = false;
+      state.error = null;
     },
   },
   actions: {
@@ -34,10 +52,13 @@ export default {
     },
     async login({ commit }, payload) {
       const { email, password } = payload;
-
-      await auth.signInWithEmailAndPassword(email, password);
-
-      commit('toggleAuth');
+      commit('authStart');
+      try {
+        await auth.signInWithEmailAndPassword(email, password);
+        commit('loginSuccess');
+      } catch (error) {
+        commit('authFail', error);
+      }
     },
     init_login({ commit }) {
       const user = auth.currentUser;

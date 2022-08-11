@@ -3,12 +3,13 @@
     <BaseButton
       class='header__btn-signin'
       color='secondary'
-      @onClick='toggleAuthModal'
-      >{{ $t('header.signin') }}</BaseButton
-    >
+      @onClick='modal.login = true'
+      >
+      {{ $t('header.signin') }}
+    </BaseButton>
   </header>
-  <BaseModal :visible='authModalShow' @onCancel='onCancel'>
-    <div class='flex flex-col items-center'>
+  <BaseModal :visible='modal.login' @onCancel='onCloseModal'>
+    <div class='flex flex-col items-center pb-14'>
       <img
         class='modal-icon svg-gray mb-6'
         :src='logoSVG'
@@ -19,24 +20,39 @@
       <h1 class='modal-title mb-3.5 text-2xl font-semibold '>
         {{ $t("auth.signin.title") }}
       </h1>
-      <p class='modal-subtitle mb-16'>{{ $t("auth.signin.subtitle") }}</p>
-      <BaseInput type='email' :placeholder='$t("auth.email")' />
-      <BaseInput type='password' :placeholder='$t("auth.password")' />
+      <p class='modal-subtitle mb-8'>{{ $t('auth.signin.subtitle') }}</p>
+      <Login :pending='auth.pending' class='pt-4' @onSubmit='onLogin'>
+        <BaseLoading v-show='auth.pending' class='flex justify-center mt-3' />
+        <span v-show='!auth.pending && auth.error' class='text-red-500 mt-1.5'>
+          {{ $t('auth.signin.error') }}
+        </span>
+      </Login>
     </div>
   </BaseModal>
+  <!-- {{ auth.pending.toString() }}
+  {{ auth.userLoggedIn.toString() }} -->
 </template>
 
 <script>
-import { mapMutations, mapState } from 'vuex';
+import { mapState, mapMutations } from 'vuex';
 import logoSVG from '@/assets/svg/logo.svg';
+import Login from './Forms/Login.vue';
 
 export default {
   name: 'Header',
+  components: { Login },
+  data() {
+    return {
+      modal: {
+        login: false,
+        register: false,
+      },
+    };
+  },
   methods: {
-    ...mapMutations(['toggleAuthModal']),
+    ...mapMutations('auth', ['authReset']),
     signout() {
       this.$store.dispatch('signout');
-
       if (this.$route.meta.requiresAuth) {
         this.$router.push({ name: 'home' });
       }
@@ -44,16 +60,16 @@ export default {
     changeLocale() {
       this.$i18n.locale = this.$i18n.locale === 'fr' ? 'en' : 'fr';
     },
-    onCancel() {
-      this.toggleAuthModal();
-      console.log('hello cancel');
+    async onLogin(values) {
+      this.$store.dispatch('auth/login', values, { root: true });
+    },
+    onCloseModal() {
+      this.authReset();
+      this.modal.login = false;
     },
   },
   computed: {
-    ...mapState({
-      userLoggedIn: (state) => state.auth.userLoggedIn,
-      authModalShow: (state) => state.auth.authModalShow,
-    }),
+    ...mapState({ auth: (state) => state.auth }),
     currentLocale() {
       return this.$i18n.t('locale');
     },

@@ -26,7 +26,8 @@ a {
 .app-container {
   display: flex;
   flex-direction: row;
-  height: calc(100vh - 64px);
+  height: 100vh;
+  // height: calc(100vh - 64px);
 }
 
 .page-container {
@@ -47,4 +48,9 @@ a {
 .svg-red {
   // #fa586a;
   filter: invert(41%) sepia(33%) saturate(1762%) hue-rotate(313deg) brightness(112%) contrast(96%);
+}
+
+.svg-gray {
+  // #c6c6c6;
+  filter: invert(78%) sepia(25%) saturate(11%) hue-rotate(87deg) brightness(96%) contrast(96%);
 }

@@ -1,9 +1,9 @@
 <template>
   <button
-    type="button"
-    :data-color="color"
-    class="base__button"
-    @click.prevent="click"
+    type='button'
+    :data-color='color'
+    class='base__button'
+    @click.prevent='$emit("onClick")'
   >
     <slot></slot>
   </button>
@@ -17,18 +17,18 @@ export default {
       type: String,
       default: 'primary',
     },
-    click: { type: Function, default: () => {} },
   },
+  emits: ['onClick'],
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang='scss' scoped>
 @each $key, $color in $btn-colors {
   .btn-#{$key} {
-    color: map-get($color, "text");
-    background-color: map-get($color, "bg");
+    color: map-get($color, 'text');
+    background-color: map-get($color, 'bg');
     &:active {
-      background-color: map-get($color, "bg--active");
+      background-color: map-get($color, 'bg--active');
     }
   }
 }
@@ -52,11 +52,11 @@ export default {
     box-shadow: $btn--focus-visible-box-shadow;
   }
 
-  &[data-color="primary"] {
+  &[data-color='primary'] {
     @extend .btn-primary;
   }
 
-  &[data-color="secondary"] {
+  &[data-color='secondary'] {
     @extend .btn-secondary;
   }
 }
