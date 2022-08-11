@@ -8,14 +8,13 @@
     <div
       class='
         flex
-        items-end
+        items-center
         justify-center
         min-h-screen
-        pt-4
-        px-4
-        pb-20
+        lg:px-4
         text-center
-        sm:block sm:p-0
+        block
+        p-0
       '
       @click.self='onCancel'
     >
@@ -28,19 +27,21 @@
           inline-block
           align-bottom
           bg-white
-          rounded-lg
+          lg:rounded-lg
           text-left
           overflow-hidden
           shadow-xl
           transform
           transition-all
           duration-500
-          sm:my-8 sm:align-middle sm:max-w-3xl sm:w-full
+          w-full
+          h-screen
+          lg:my-8 lg:align-middle lg:max-w-3xl lg:w-full lg:h-auto
           modal-content
           '
       >
         <!-- Add margin if you want to see some of the overlay behind the modal-->
-        <div class='text-left p-5'>
+        <div class='text-left p-5 h-full sm:block'>
           <!--Modal Header-->
           <div class='flex justify-between items-start pb-1 h-16'>
             <!-- Modal Close Button -->
@@ -57,7 +58,7 @@
               />
             </div>
           </div>
-          <div>
+          <div class="grid items-center h-full pb-10">
             <slot></slot>
           </div>
         </div>

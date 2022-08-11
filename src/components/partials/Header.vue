@@ -9,7 +9,7 @@
     </BaseButton>
   </header>
   <BaseModal :visible='modal.login' @onCancel='onCloseModal'>
-    <div class='flex flex-col items-center pb-14'>
+    <div class='flex flex-col items-center -mt-20 lg:mt-auto pb-14'>
       <img
         class='modal-icon svg-gray mb-6'
         :src='logoSVG'
