@@ -1,9 +1,10 @@
 <template>
   <button
-    type='button'
+    :disabled='disabled'
+    :type='type'
     :data-color='color'
     class='base__button'
-    @click.prevent='$emit("onClick")'
+    @click='$emit("onClick")'
   >
     <slot></slot>
   </button>
@@ -13,6 +14,14 @@
 export default {
   name: 'Button',
   props: {
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
+    type: {
+      type: String,
+      default: 'button',
+    },
     color: {
       type: String,
       default: 'primary',
@@ -27,8 +36,17 @@ export default {
   .btn-#{$key} {
     color: map-get($color, 'text');
     background-color: map-get($color, 'bg');
-    &:active {
-      background-color: map-get($color, 'bg--active');
+
+    &:disabled {
+      color: #181818;
+      background-color: #b6b6b6;
+      cursor: not-allowed;
+    }
+
+    &:not(:disabled) {
+      &:active {
+        background-color: map-get($color, 'bg--active');
+      }
     }
   }
 }

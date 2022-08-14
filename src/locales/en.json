@@ -21,6 +21,8 @@
     }
   },
   "auth": {
+    "firstName": "First Name",
+    "lastName": "Last Name",
     "email": "Email",
     "password": "Password",
     "signin": {
@@ -28,9 +30,10 @@
       "subtitle": "You will be signed in to Apple Music",
       "error": "Your email or password is incorrect."
     },
-    "signup": {
+    "register": {
       "title": "Create Account",
-      "button": "Create New Account"
+      "button": "Create New Account",
+      "error": "We are not currently able to create new account, please try again later."
     },
     "forgotPassword": {
       "title": "Create Account",

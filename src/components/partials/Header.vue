@@ -16,15 +16,20 @@
           {{ $t('auth.signin.error') }}
         </span>
       </Login>
-      <div v-if="modal.register">Signup</div>
+      <Register v-if="modal.register" :pending='auth.pending' @onSubmit='onRegister'>
+        <BaseLoading v-show='auth.pending' class='flex justify-center mt-3' />
+        <span v-show='!auth.pending && auth.error' class='text-red-500 mt-1.5'>
+          {{ $t('auth.register.error') }}
+        </span>
+      </Register>
       <div v-if="modal.forgot">Forgot password</div>
       <BaseButton
         v-if='modal.login'
-        class='header__btn-signup'
+        class='header__btn-register'
         color='link'
         @onClick='onChangeModal("register")'
         >
-        {{ $t('auth.signup.button') }}
+        {{ $t('auth.register.button') }}
       </BaseButton>
       <BaseButton
         v-if='modal.login'
@@ -36,17 +41,17 @@
       </BaseButton>
     </div>
   </BaseModal>
-  {{ auth.userLoggedIn.toString() }}
 </template>
 
 <script>
 import { mapState, mapMutations } from 'vuex';
 
-import Login from './Forms/Login.vue';
+import Login from '@/components/partials/Forms/Login.vue';
+import Register from '@/components/partials/Forms/Register.vue';
 
 export default {
   name: 'Header',
-  components: { Login },
+  components: { Login, Register },
   data() {
     return {
       modal: {
@@ -70,6 +75,9 @@ export default {
     },
     async onLogin(values) {
       this.$store.dispatch('auth/login', values, { root: true });
+    },
+    async onRegister(values) {
+      this.$store.dispatch('auth/register', values, { root: true });
     },
     onChangeModal(name) {
       Object.keys(this.modal)
@@ -128,7 +136,7 @@ export default {
     letter-spacing: 0.004em;
   }
 
-  &__btn-signup {
+  &__btn-register {
     font-size: .93rem !important;
     margin-top: 4rem;
   }

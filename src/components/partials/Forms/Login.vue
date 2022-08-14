@@ -4,7 +4,7 @@
     :src='logoSVG'
     width='55'
     height='55'
-    alt='close icon'
+    alt='logo icon'
   />
   <h1 class='modal-title mb-3.5 text-2xl font-semibold '>
     {{ $t("auth.signin.title") }}

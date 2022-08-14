@@ -36,17 +36,17 @@ export default {
   actions: {
     async register({ commit }, payload) {
       const {
-        name, email, password, age, country,
+        firstName, lastName, email, password,
       } = payload;
 
       const { user } = await auth
         .createUserWithEmailAndPassword(email, password);
 
       await usersCollection.doc(user.uid).set({
-        name, email, age, country,
+        firstName, lastName, email,
       });
 
-      await user.updateProfile({ displayName: name });
+      await user.updateProfile({ displayName: `${firstName} ${lastName}` });
 
       commit('toggleAuth');
     },
