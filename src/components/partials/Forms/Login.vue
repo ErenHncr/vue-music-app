@@ -1,4 +1,15 @@
 <template>
+  <img
+    class='svg-gray mx-auto mb-6'
+    :src='logoSVG'
+    width='55'
+    height='55'
+    alt='close icon'
+  />
+  <h1 class='modal-title mb-3.5 text-2xl font-semibold '>
+    {{ $t("auth.signin.title") }}
+  </h1>
+  <p class='modal-subtitle mb-8'>{{ $t('auth.signin.subtitle') }}</p>
   <VeeForm
     v-slot='{ errors, meta: { touched } }'
     class='form-login'
@@ -43,6 +54,8 @@
 </template>
 
 <script>
+import logoSVG from '@/assets/svg/logo.svg';
+
 export default {
   name: 'Login',
   props: {
@@ -66,6 +79,9 @@ export default {
     onSubmit(values) {
       this.$emit('onSubmit', values);
     },
+  },
+  setup() {
+    return { logoSVG };
   },
 };
 </script>

@@ -3,39 +3,45 @@
     <BaseButton
       class='header__btn-signin'
       color='secondary'
-      @onClick='modal.login = true'
+      @onClick='modal.container = true'
       >
       {{ $t('header.signin') }}
     </BaseButton>
   </header>
-  <BaseModal :visible='modal.login' @onCancel='onCloseModal'>
+  <BaseModal :visible='modal.container' @onCancel='onCloseModal'>
     <div class='flex flex-col items-center -mt-20 lg:mt-auto pb-14'>
-      <img
-        class='modal-icon svg-gray mb-6'
-        :src='logoSVG'
-        width='55'
-        height='55'
-        alt='close icon'
-      />
-      <h1 class='modal-title mb-3.5 text-2xl font-semibold '>
-        {{ $t("auth.signin.title") }}
-      </h1>
-      <p class='modal-subtitle mb-8'>{{ $t('auth.signin.subtitle') }}</p>
-      <Login :pending='auth.pending' class='pt-4' @onSubmit='onLogin'>
+      <Login v-if="modal.login" :pending='auth.pending' class='pt-4' @onSubmit='onLogin'>
         <BaseLoading v-show='auth.pending' class='flex justify-center mt-3' />
         <span v-show='!auth.pending && auth.error' class='text-red-500 mt-1.5'>
           {{ $t('auth.signin.error') }}
         </span>
       </Login>
+      <div v-if="modal.register">Signup</div>
+      <div v-if="modal.forgot">Forgot password</div>
+      <BaseButton
+        v-if='modal.login'
+        class='header__btn-signup'
+        color='link'
+        @onClick='onChangeModal("register")'
+        >
+        {{ $t('auth.signup.button') }}
+      </BaseButton>
+      <BaseButton
+        v-if='modal.login'
+        class='header__btn-forgot'
+        color='link'
+        @onClick='() => onChangeModal("forgot")'
+        >
+        {{ $t('auth.forgotPassword.button') }}
+      </BaseButton>
     </div>
   </BaseModal>
-  <!-- {{ auth.pending.toString() }}
-  {{ auth.userLoggedIn.toString() }} -->
+  {{ auth.userLoggedIn.toString() }}
 </template>
 
 <script>
 import { mapState, mapMutations } from 'vuex';
-import logoSVG from '@/assets/svg/logo.svg';
+
 import Login from './Forms/Login.vue';
 
 export default {
@@ -44,8 +50,10 @@ export default {
   data() {
     return {
       modal: {
-        login: false,
+        container: false,
+        login: true,
         register: false,
+        forgot: false,
       },
     };
   },
@@ -63,9 +71,19 @@ export default {
     async onLogin(values) {
       this.$store.dispatch('auth/login', values, { root: true });
     },
+    onChangeModal(name) {
+      Object.keys(this.modal)
+        .filter((key) => key !== 'container')
+        .forEach((key) => {
+          this.modal[key] = key === name;
+        });
+    },
     onCloseModal() {
       this.authReset();
-      this.modal.login = false;
+      Object.keys(this.modal)
+        .forEach((key) => {
+          this.modal[key] = key === 'login';
+        });
     },
   },
   computed: {
@@ -74,8 +92,16 @@ export default {
       return this.$i18n.t('locale');
     },
   },
-  setup() {
-    return { logoSVG };
+  watch: {
+    auth: {
+      handler(newValue) {
+        if (newValue.userLoggedIn) {
+          this.modal.login = false;
+          this.$router.push({ name: 'browse' });
+        }
+      },
+      deep: true,
+    },
   },
 };
 </script>
@@ -101,8 +127,16 @@ export default {
     border-radius: 6px;
     letter-spacing: 0.004em;
   }
-}
 
+  &__btn-signup {
+    font-size: .93rem !important;
+    margin-top: 4rem;
+  }
+
+  &__btn-forgot {
+    font-size: .93rem !important;
+  }
+}
 .modal {
   &-title, &-subtitle {
     color: #f5f5f7;

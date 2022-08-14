@@ -27,6 +27,14 @@
       "title": "Sign in with your email",
       "subtitle": "You will be signed in to Apple Music",
       "error": "Your email or password is incorrect."
+    },
+    "signup": {
+      "title": "Create Account",
+      "button": "Create New Account"
+    },
+    "forgotPassword": {
+      "title": "Create Account",
+      "button": "Forgot Password?"
     }
   },
   "header": {

@@ -33,9 +33,14 @@ yarn lint
 # Apple Music Clone
 
 ### Todos
-- [ ] update Modal component width and height for mobile devices
 - [ ] Listen Now
-  - [ ] add modal for action button
+  - [ ] Signin Modal
+    - [x] add modal for action button
+    - [x] update Modal component width and height for mobile devices
+    - [x] add create new account button in signin modal
+      - [ ] create new account form(most basic form of actual form - don't overthink it)
+    - [x] add forgot password button button in signin modal
+      - [ ] create new account form(most basic form of actual form - don't overthink it)
 - [ ] HeaderAuth
   - [ ] add signin button icon for bigger screen sizes.
   - [ ] modal design for signin.
@@ -44,6 +49,7 @@ yarn lint
 ### Completed ✓
 - [x] add overflow scroll and style for page container
 - [x] use veevalidate useForm to validate form errors and update vue component to composition api
+
 
 
 

@@ -87,7 +87,6 @@ export default {
 .navigation {
   max-width: $nav-width;
   min-width: $nav-width;
-  height:100%;
   background-color: $nav-bg-color;
   position:relative;
   padding: 0px 25px 0 25px;
