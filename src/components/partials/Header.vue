@@ -18,19 +18,26 @@
         </span>
       </Login>
       <Register v-if="auth.modal.register" :pending='auth.pending' @onSubmit='onRegister'>
-        <BaseLoading v-show='auth.pending' class='flex justify-center mt-3' />
         <span v-show='!auth.pending && auth.error' class='text-red-500 mt-1.5'>
-          {{ $t('auth.register.error') }}
+          {{ $t(`auth.register.errors.${auth?.error?.code ?? 'default'}`) }}
         </span>
       </Register>
-      <div v-if="auth.modal.forgotPassword">Forgot password</div>
+      <ForgotPassword
+        v-if="auth.modal.forgotPassword"
+        :pending='auth.pending'
+        @onSubmit='onForgotPassword'
+      >
+        <span v-show='!auth.pending && auth.error' class='text-red-500 mt-1.5'>
+          {{ $t(`auth.forgotPassword.errors.${auth?.error?.code ?? 'default'}`) }}
+        </span>
+      </ForgotPassword>
       <BaseButton
         v-if='auth.modal.login'
         class='header__btn-register'
         color='link'
         @onClick='updateAuthModal("register")'
         >
-        {{ $t('auth.register.button') }}
+        {{ $t('auth.register.submit') }}
       </BaseButton>
       <BaseButton
         v-if='auth.modal.login'
@@ -49,10 +56,15 @@ import { mapState, mapMutations } from 'vuex';
 
 import Login from '@/components/partials/Forms/Login.vue';
 import Register from '@/components/partials/Forms/Register.vue';
+import ForgotPassword from '@/components/partials/Forms/ForgotPassword.vue';
 
 export default {
   name: 'Header',
-  components: { Login, Register },
+  components: {
+    Login,
+    Register,
+    ForgotPassword,
+  },
   methods: {
     ...mapMutations('auth', ['openAuthModal', 'closeAuthModal', 'updateAuthModal']),
     signout() {

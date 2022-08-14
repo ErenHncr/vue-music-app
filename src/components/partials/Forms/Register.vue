@@ -73,7 +73,6 @@
         name='password'
       />
     </div>
-    <!-- added for using submit event with enter key -->
     <BaseButton
       tabindex='5'
       :disabled='pending || !valid'
@@ -82,7 +81,9 @@
       class='submit-btn'
     >
       <BaseLoading v-show='pending' class='loading' />
-      {{ $t('auth.register.button') }}
+      <span v-show='!pending'>
+      {{ $t('auth.register.submit') }}
+      </span>
     </BaseButton>
     <slot></slot>
   </VeeForm>

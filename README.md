@@ -33,31 +33,34 @@ yarn lint
 # Apple Music Clone
 
 ### Todos
-- [ ]
-  - [x] Signin Modal
-      - [x] add modal for action button
-      - [x] update Modal component width and height for mobile devices
-  - [ ] Signup Modal
-      - [x] add create new account button in signin modal
-      - [x] create new account form
-      - [x] check submit button action with event values
-      - [x] create new account functionality with new fields
-  - [ ] Forgot Password Modal
-      - [x] add forgot password button button in signin modal
-      - [ ] create forgot password form
-- [ ] Listen Now
-  - [x] move modal states to auth vuex store
-  - [x] open signup modal when try it free button is clicked
-- [ ] HeaderAuth
-  - [ ] add signin button icon for bigger screen sizes.
-  - [ ] modal design for signin.
-- [ ] add input field for search
+- [ ] Forgot Password Modal
+  - [x] add forgot password button button in signin modal
+  - [x] create forgot password form
+  - [x] add error messages
+  - [ ] add forgot password functionality
+- [ ] View: Browse
+  - [ ] minimal design
+  - [ ] add infinite scroll when available
+- [ ] Player component
+  - [ ] minimal design
+- [ ] View: Manage
+  - [ ] minimal design
 
 ### Completed ✓
 - [x] add overflow scroll and style for page container
 - [x] use veevalidate useForm to validate form errors and update vue component to composition api
 - [x] add disabled button state
-
-
-
+- [x] Signin Modal
+    - [x] add modal for action button
+    - [x] update Modal component width and height for mobile devices
+- [x] Signup Modal
+    - [x] add create new account button in signin modal
+    - [x] create new account form
+    - [x] check submit button action with event values
+    - [x] add create new account functionality with new fields
+    - [x] add error messages
+- [x] View: Listen Now
+  - [x] move modal states to auth vuex store
+  - [x] open signup modal when try it free button is clicked
+ 
 

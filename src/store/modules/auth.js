@@ -40,7 +40,7 @@ export default {
       state.pending = true;
       state.error = null;
     },
-    loginSuccess: (state) => {
+    authSuccess: (state) => {
       state.pending = false;
       state.userLoggedIn = true;
     },
@@ -55,23 +55,28 @@ export default {
         firstName, lastName, email, password,
       } = payload;
 
-      const { user } = await auth
-        .createUserWithEmailAndPassword(email, password);
+      commit('authStart');
+      try {
+        const { user } = await auth
+          .createUserWithEmailAndPassword(email, password);
 
-      await usersCollection.doc(user.uid).set({
-        firstName, lastName, email, createdAt: new Date().toISOString(),
-      });
+        await usersCollection.doc(user.uid).set({
+          firstName, lastName, email, createdAt: new Date().toISOString(),
+        });
 
-      await user.updateProfile({ displayName: `${firstName} ${lastName}` });
-
-      commit('closeAuthModal');
+        await user.updateProfile({ displayName: `${firstName} ${lastName}` });
+        commit('authSuccess');
+        commit('closeAuthModal');
+      } catch (error) {
+        commit('authFail', error);
+      }
     },
     async login({ commit }, payload) {
       const { email, password } = payload;
       commit('authStart');
       try {
         await auth.signInWithEmailAndPassword(email, password);
-        commit('loginSuccess');
+        commit('authSuccess');
       } catch (error) {
         commit('authFail', error);
       }
