@@ -59,5 +59,18 @@ export default {
   &[data-color='secondary'] {
     @extend .btn-secondary;
   }
+
+  &[data-color='link'] {
+    @extend .btn-link;
+
+    font-weight: 400;
+    line-height: 1.37rem;
+    letter-spacing: .03rem;
+    padding: 0px;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 }
 </style>
