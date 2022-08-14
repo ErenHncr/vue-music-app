@@ -3,39 +3,40 @@
     <BaseButton
       class='header__btn-signin'
       color='secondary'
-      @onClick='modal.container = true'
+      @onClick='openAuthModal'
       >
       {{ $t('header.signin') }}
     </BaseButton>
   </header>
-  <BaseModal :visible='modal.container' @onCancel='onCloseModal'>
+  <!-- Auth Modals -->
+  <BaseModal :visible='auth.modal.container' @onCancel='closeAuthModal'>
     <div class='flex flex-col items-center -mt-20 lg:mt-auto pb-14'>
-      <Login v-if="modal.login" :pending='auth.pending' class='pt-4' @onSubmit='onLogin'>
+      <Login v-if="auth.modal.login" :pending='auth.pending' class='pt-4' @onSubmit='onLogin'>
         <BaseLoading v-show='auth.pending' class='flex justify-center mt-3' />
         <span v-show='!auth.pending && auth.error' class='text-red-500 mt-1.5'>
           {{ $t('auth.signin.error') }}
         </span>
       </Login>
-      <Register v-if="modal.register" :pending='auth.pending' @onSubmit='onRegister'>
+      <Register v-if="auth.modal.register" :pending='auth.pending' @onSubmit='onRegister'>
         <BaseLoading v-show='auth.pending' class='flex justify-center mt-3' />
         <span v-show='!auth.pending && auth.error' class='text-red-500 mt-1.5'>
           {{ $t('auth.register.error') }}
         </span>
       </Register>
-      <div v-if="modal.forgot">Forgot password</div>
+      <div v-if="auth.modal.forgotPassword">Forgot password</div>
       <BaseButton
-        v-if='modal.login'
+        v-if='auth.modal.login'
         class='header__btn-register'
         color='link'
-        @onClick='onChangeModal("register")'
+        @onClick='updateAuthModal("register")'
         >
         {{ $t('auth.register.button') }}
       </BaseButton>
       <BaseButton
-        v-if='modal.login'
+        v-if='auth.modal.login'
         class='header__btn-forgot'
         color='link'
-        @onClick='() => onChangeModal("forgot")'
+        @onClick='() => updateAuthModal("forgotPassword")'
         >
         {{ $t('auth.forgotPassword.button') }}
       </BaseButton>
@@ -52,18 +53,8 @@ import Register from '@/components/partials/Forms/Register.vue';
 export default {
   name: 'Header',
   components: { Login, Register },
-  data() {
-    return {
-      modal: {
-        container: false,
-        login: true,
-        register: false,
-        forgot: false,
-      },
-    };
-  },
   methods: {
-    ...mapMutations('auth', ['authReset']),
+    ...mapMutations('auth', ['openAuthModal', 'closeAuthModal', 'updateAuthModal']),
     signout() {
       this.$store.dispatch('signout');
       if (this.$route.meta.requiresAuth) {
@@ -79,20 +70,6 @@ export default {
     async onRegister(values) {
       this.$store.dispatch('auth/register', values, { root: true });
     },
-    onChangeModal(name) {
-      Object.keys(this.modal)
-        .filter((key) => key !== 'container')
-        .forEach((key) => {
-          this.modal[key] = key === name;
-        });
-    },
-    onCloseModal() {
-      this.authReset();
-      Object.keys(this.modal)
-        .forEach((key) => {
-          this.modal[key] = key === 'login';
-        });
-    },
   },
   computed: {
     ...mapState({ auth: (state) => state.auth }),
@@ -102,9 +79,9 @@ export default {
   },
   watch: {
     auth: {
-      handler(newValue) {
-        if (newValue.userLoggedIn) {
-          this.modal.login = false;
+      handler(newValue, oldValue) {
+        if (!oldValue.userLoggedIn && newValue.userLoggedIn) {
+          this.closeAuthModal();
           this.$router.push({ name: 'browse' });
         }
       },

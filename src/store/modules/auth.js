@@ -5,13 +5,33 @@ export default {
   state: {
     pending: false,
     error: null,
-    authModalShow: false,
     userLoggedIn: false,
+    modal: {
+      container: false,
+      login: true,
+      register: false,
+      forgotPassword: false,
+    },
   },
   getters: {},
   mutations: {
-    toggleAuthModal: (state) => {
-      state.authModalShow = !state.authModalShow;
+    openAuthModal: (state) => {
+      state.modal.container = !state.modal.container;
+    },
+    updateAuthModal(state, modalName = 'login') {
+      Object.keys(state.modal)
+        .filter((key) => key !== 'container')
+        .forEach((key) => {
+          state.modal[key] = key === modalName;
+        });
+    },
+    closeAuthModal(state) {
+      state.pending = false;
+      state.error = null;
+      Object.keys(state.modal)
+        .forEach((key) => {
+          state.modal[key] = key === 'login';
+        });
     },
     toggleAuth: (state) => {
       state.userLoggedIn = !state.userLoggedIn;
@@ -28,10 +48,6 @@ export default {
       state.pending = false;
       state.error = error;
     },
-    authReset: (state) => {
-      state.pending = false;
-      state.error = null;
-    },
   },
   actions: {
     async register({ commit }, payload) {
@@ -43,12 +59,12 @@ export default {
         .createUserWithEmailAndPassword(email, password);
 
       await usersCollection.doc(user.uid).set({
-        firstName, lastName, email,
+        firstName, lastName, email, createdAt: new Date().toISOString(),
       });
 
       await user.updateProfile({ displayName: `${firstName} ${lastName}` });
 
-      commit('toggleAuth');
+      commit('closeAuthModal');
     },
     async login({ commit }, payload) {
       const { email, password } = payload;

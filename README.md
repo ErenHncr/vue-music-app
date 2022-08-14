@@ -41,13 +41,13 @@ yarn lint
       - [x] add create new account button in signin modal
       - [x] create new account form
       - [x] check submit button action with event values
-      - [ ] create new account functionality with new fields
+      - [x] create new account functionality with new fields
   - [ ] Forgot Password Modal
       - [x] add forgot password button button in signin modal
       - [ ] create forgot password form
 - [ ] Listen Now
-  - [ ] move modal states to auth vuex store
-  - [ ] open signup modal when try it free button is clicked
+  - [x] move modal states to auth vuex store
+  - [x] open signup modal when try it free button is clicked
 - [ ] HeaderAuth
   - [ ] add signin button icon for bigger screen sizes.
   - [ ] modal design for signin.

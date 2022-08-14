@@ -14,9 +14,9 @@
       <div class="listen-now__personal-subhead">
         {{ $t("views.listen-now.subhead") }}
       </div>
-      <BaseButton class="listen-now__personal-actionButton">{{
-        $t("views.listen-now.actionButton")
-    }}</BaseButton>
+      <BaseButton class="listen-now__personal-actionButton" @click='onClickAction'>
+        {{ $t("views.listen-now.actionButton") }}
+      </BaseButton>
     </div>
     <picture class="listen-now__personal-artwork">
       <source
@@ -107,10 +107,18 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex';
 import brandSVG from '@/assets/svg/brand.svg';
 
 export default {
   name: 'ListenNow',
+  methods: {
+    ...mapMutations('auth', ['openAuthModal', 'updateAuthModal']),
+    onClickAction() {
+      this.updateAuthModal('register');
+      this.openAuthModal();
+    },
+  },
   setup() {
     return { brandSVG };
   },
