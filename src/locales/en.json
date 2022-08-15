@@ -41,12 +41,17 @@
     "forgotPassword": {
       "title": "Having trouble signing in?",
       "subtitle": "Enter your email to get started.",
-      "description": "An email has been sent to your email address. Follow the directions in the email to update your password and then sign in again.",
       "button": "Forgot Password?",
+      "submit": "Continue",
       "errors": {
-        "default": "Your email is incorrect."
+        "default": "Your email is incorrect.",
+        "auth/too-many-requests": "You can only send password reset email every 45 minutes. Try again later."
       },
-      "submit": "Continue"
+      "success": {
+        "title": "Email Sent",
+        "subtitle": "An email has been sent to your email address. Follow the directions in the email to update your password and then sign in again.",
+        "submit": "Done"
+      }
     }
   },
   "header": {

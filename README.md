@@ -33,11 +33,6 @@ yarn lint
 # Apple Music Clone
 
 ### Todos
-- [ ] Forgot Password Modal
-  - [x] add forgot password button button in signin modal
-  - [x] create forgot password form
-  - [x] add error messages
-  - [ ] add forgot password functionality
 - [ ] View: Browse
   - [ ] minimal design
   - [ ] add infinite scroll when available
@@ -62,5 +57,10 @@ yarn lint
 - [x] View: Listen Now
   - [x] move modal states to auth vuex store
   - [x] open signup modal when try it free button is clicked
+- [x] Forgot Password Modal
+  - [x] add forgot password button button in signin modal
+  - [x] create forgot password form
+  - [x] add error messages
+  - [x] add forgot password functionality
  
 

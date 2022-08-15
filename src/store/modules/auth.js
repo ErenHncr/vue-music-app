@@ -1,4 +1,5 @@
 import { auth, usersCollection } from '@/includes/firebase';
+import { diffTime } from '@/includes/helper';
 
 export default {
   namespaced: true,
@@ -11,6 +12,10 @@ export default {
       login: true,
       register: false,
       forgotPassword: false,
+    },
+    user: {
+      email: null,
+      resetPassword: false,
     },
   },
   getters: {},
@@ -33,20 +38,29 @@ export default {
           state.modal[key] = key === 'login';
         });
     },
-    toggleAuth: (state) => {
+    toggleAuth: (state, payload) => {
       state.userLoggedIn = !state.userLoggedIn;
+      state.user.email = payload;
     },
     authStart: (state) => {
       state.pending = true;
       state.error = null;
     },
-    authSuccess: (state) => {
+    authSuccess: (state, payload) => {
       state.pending = false;
       state.userLoggedIn = true;
+      state.user.email = payload;
     },
     authFail: (state, error) => {
       state.pending = false;
       state.error = error;
+    },
+    forgotPasswordSuccess: (state, payload) => {
+      state.pending = false;
+      state.user = {
+        email: payload,
+        resetPassword: true,
+      };
     },
   },
   actions: {
@@ -76,7 +90,7 @@ export default {
       commit('authStart');
       try {
         await auth.signInWithEmailAndPassword(email, password);
-        commit('authSuccess');
+        commit('authSuccess', email);
       } catch (error) {
         commit('authFail', error);
       }
@@ -84,13 +98,30 @@ export default {
     init_login({ commit }) {
       const user = auth.currentUser;
       if (user) {
-        commit('toggleAuth');
+        commit('toggleAuth', user?.email);
       }
     },
     async signout({ commit }) {
       await auth.signOut();
 
       commit('toggleAuth');
+    },
+    async forgotPassword({ commit }, payload) {
+      commit('authStart');
+      try {
+        const lastAttemptDate = localStorage.getItem('reset_password_date');
+        const { minutes: diffMinutes } = diffTime(lastAttemptDate, new Date());
+
+        if (diffMinutes > 45) {
+          await auth.sendPasswordResetEmail(payload);
+          localStorage.setItem('reset_password_date', new Date().toISOString());
+          commit('forgotPasswordSuccess', payload);
+          return;
+        }
+        commit('authFail', { code: 'auth/too-many-requests' });
+      } catch (error) {
+        commit('authFail', error);
+      }
     },
   },
 };

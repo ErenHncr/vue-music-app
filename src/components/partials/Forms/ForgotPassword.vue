@@ -7,16 +7,18 @@
     alt='logo icon'
   />
   <h1 class='modal-title mb-3.5 text-2xl font-semibold '>
-    {{ $t("auth.forgotPassword.title") }}
+    {{ success ? $t('auth.forgotPassword.success.title') : $t("auth.forgotPassword.title") }}
   </h1>
-  <p class='modal-subtitle mb-4'>{{ $t('auth.forgotPassword.subtitle') }}</p>
+  <p class='modal-subtitle mb-4'>
+    {{ success ? $t('auth.forgotPassword.success.subtitle') : $t('auth.forgotPassword.subtitle') }}
+  </p>
   <VeeForm
     v-slot='{ meta: { valid } }'
     class='form-forgot_password'
     :validation-schema='validationSchema'
     @submit='onSubmit'
   >
-    <div class='input-row'>
+    <div class='input-row' v-show="!success">
       <BaseInput
         tabindex='1'
         :disabled='pending'
@@ -31,6 +33,7 @@
       />
     </div>
     <BaseButton
+      v-if='!success'
       tabindex='2'
       :disabled='pending || !valid'
       type='submit'
@@ -40,6 +43,18 @@
       <BaseLoading v-show='pending' class='loading' />
       <span v-show='!pending'>
         {{ $t('auth.forgotPassword.submit') }}
+      </span>
+    </BaseButton>
+    <BaseButton
+      v-if='success'
+      tabindex='3'
+      color='secondary'
+      class='submit-btn'
+      @onClick='onClose'
+    >
+      <BaseLoading v-show='pending' class='loading' />
+      <span v-show='!pending'>
+        {{ $t('auth.forgotPassword.success.submit') }}
       </span>
     </BaseButton>
     <slot></slot>
@@ -56,8 +71,12 @@ export default {
       type: Boolean,
       default: false,
     },
+    success: {
+      type: Boolean,
+      default: false,
+    },
   },
-  emits: ['onSubmit'],
+  emits: ['onSubmit', 'onClose'],
   data() {
     return {
       email: '',
@@ -66,8 +85,10 @@ export default {
   },
   methods: {
     onSubmit(values) {
-      console.log(values);
       this.$emit('onSubmit', values);
+    },
+    onClose() {
+      this.$emit('onClose');
     },
   },
   setup() {
@@ -77,6 +98,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+.modal-subtitle {
+  max-width: min(330px, 100%);
+  text-align: center;
+}
+
 .form-forgot_password{
   max-width: min(330px, 100%);
   width: 100%;

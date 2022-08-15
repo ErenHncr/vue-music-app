@@ -25,9 +25,14 @@
       <ForgotPassword
         v-if="auth.modal.forgotPassword"
         :pending='auth.pending'
+        :success='auth.user.resetPassword'
         @onSubmit='onForgotPassword'
+        @onClose='closeAuthModal'
       >
-        <span v-show='!auth.pending && auth.error' class='text-red-500 mt-1.5'>
+        <span
+          v-show='!auth.pending && auth.error && !auth.user.resetPassword'
+          class='text-red-500 mt-1.5'
+        >
           {{ $t(`auth.forgotPassword.errors.${auth?.error?.code ?? 'default'}`) }}
         </span>
       </ForgotPassword>
@@ -81,6 +86,10 @@ export default {
     },
     async onRegister(values) {
       this.$store.dispatch('auth/register', values, { root: true });
+    },
+    async onForgotPassword(values) {
+      const { email } = values;
+      this.$store.dispatch('auth/forgotPassword', email, { root: true });
     },
   },
   computed: {
