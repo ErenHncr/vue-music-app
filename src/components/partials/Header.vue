@@ -93,20 +93,24 @@ export default {
     },
   },
   computed: {
-    ...mapState({ auth: (state) => state.auth }),
+    ...mapState({
+      auth: (state) => state.auth,
+      userLoggedIn: (state) => state.auth.userLoggedIn,
+    }),
     currentLocale() {
       return this.$i18n.t('locale');
     },
   },
   watch: {
-    auth: {
-      handler(newValue, oldValue) {
-        if (!oldValue.userLoggedIn && newValue.userLoggedIn) {
+    userLoggedIn(newValue, oldValue) {
+      if (oldValue !== newValue) {
+        if (newValue) {
           this.closeAuthModal();
           this.$router.push({ name: 'browse' });
+        } else {
+          this.$router.push({ name: 'listen-now' });
         }
-      },
-      deep: true,
+      }
     },
   },
 };
