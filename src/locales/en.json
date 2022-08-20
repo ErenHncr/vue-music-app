@@ -45,7 +45,8 @@
       "submit": "Continue",
       "errors": {
         "default": "Your email is incorrect.",
-        "auth/too-many-requests": "You can only send password reset email every 45 minutes. Try again later."
+        "auth/too-many-requests": "You can only send password reset email every 45 minutes. Try again later.",
+        "auth/user-not-found": "Your email is incorrect."
       },
       "success": {
         "title": "Email Sent",
