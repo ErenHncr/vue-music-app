@@ -1,6 +1,7 @@
 <template>
   <header class='header'>
     <BaseButton
+      v-if='userLoggedIn'
       class='header__btn-signin'
       color='secondary'
       @onClick='openAuthModal'
@@ -102,14 +103,12 @@ export default {
     },
   },
   watch: {
-    userLoggedIn(newValue, oldValue) {
-      if (oldValue !== newValue) {
-        if (newValue) {
-          this.closeAuthModal();
-          this.$router.push({ name: 'browse' });
-        } else {
-          this.$router.push({ name: 'listen-now' });
-        }
+    userLoggedIn(newValue) {
+      if (newValue) {
+        this.closeAuthModal();
+        this.$router.push({ name: 'browse' });
+      } else {
+        this.$router.push({ name: 'listen-now' });
       }
     },
   },
@@ -118,15 +117,13 @@ export default {
 
 <style lang='scss' scoped>
 .header {
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 1fr;
-  align-items: center;
-  justify-items: end;
-  flex-shrink: 0;
   width: 100%;
   max-width: 1680px;
   height: 55px;
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: flex-end;
   margin: 0 auto;
   padding-inline-end: 20px;
   z-index: 1;

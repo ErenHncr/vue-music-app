@@ -12,7 +12,7 @@ module.exports = {
       .plugin('html')
       .tap((args) => {
         // eslint-disable-next-line
-        args[0].title = 'Music App';
+        args[0].title = 'Apple Music';
         return args;
       });
   },
@@ -29,8 +29,8 @@ module.exports = {
     },
   },
   pwa: {
-    name: 'Music App',
-    theme: '#FF5e3a',
+    name: 'Apple Music',
+    theme: '#fa233b',
     manifestOptions: { short_name: 'Music' },
   },
 };
