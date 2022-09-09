@@ -1,5 +1,5 @@
 <template>
-  <div class="listen-now">
+  <section class="listen-now">
     <div class="listen-now__personal-text">
       <img
         class="listen-now__personal-logo svg-white inline"
@@ -103,7 +103,7 @@
         alt="apple music window on macbook screen"
       />
     </picture>
-  </div>
+  </section>
 </template>
 
 <script>

@@ -34,8 +34,13 @@ yarn lint
 
 ### Todos
 - [ ] View: Browse
-  - [ ] minimal design
+  - [ ] minimal design(work in progress)
+    - [ ] add button type
+    - [ ] play button
+    - [ ] more button
+  - [ ] scroll snap(maybe)
   - [ ] add infinite scroll when available
+  - [ ] use composables for scroll to bottom(https://vuejs.org/guide/reusability/composables.html)
 - [ ] Player component
   - [ ] minimal design
 - [ ] View: Manage
