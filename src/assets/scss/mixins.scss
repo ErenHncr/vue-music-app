@@ -1,0 +1,42 @@
+@import './variables.scss';
+
+@mixin on-xsmall {
+  @media (max-width: $xsmall) {
+    @content;
+  }
+}
+@mixin up-xsmall {
+  @media (min-width: $xsmall) {
+    @content;
+  }
+}
+@mixin on-small {
+  @media (max-width: $small) {
+    @content;
+  }
+}
+@mixin up-small {
+  @media (min-width: $small) {
+    @content;
+  }
+}
+@mixin on-medium {
+  @media (max-width: $medium) {
+    @content;
+  }
+}
+@mixin up-medium {
+  @media (min-width: $medium) {
+    @content;
+  }
+}
+@mixin on-large {
+  @media (max-width: $large) {
+    @content;
+  }
+}
+@mixin up-large {
+  @media (min-width: $large) {
+    @content;
+  }
+}
