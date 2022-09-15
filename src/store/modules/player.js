@@ -2,6 +2,7 @@ import { Howl } from 'howler';
 import { formatTime } from '@/includes/helper';
 
 export default {
+  namespaced: true,
   state: {
     currentSong: {},
     sound: {},

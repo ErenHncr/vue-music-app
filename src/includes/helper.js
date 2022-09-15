@@ -1,18 +1,18 @@
 const timeUnits = { minute: 60 };
 
-const formatNumberToTwoDigit = (number = 0) => number.toLocaleString('en-US', {
+export const formatNumberToTwoDigit = (number = 0) => number.toLocaleString('en-US', {
   minimumIntegerDigits: 2,
   useGrouping: false,
 });
 
 // time param in seconds
-const formatTime = (time) => {
+export const formatTime = (time) => {
   const minutes = Math.floor(time / timeUnits.minute) || 0;
   const seconds = Math.round((time - minutes * timeUnits.minute)) || 0;
   return `${formatNumberToTwoDigit(minutes)}:${formatNumberToTwoDigit(seconds)}`;
 };
 
-const diffTime = (d1, d2) => {
+export const diffTime = (d1, d2) => {
   try {
     const date1 = new Date(d1);
     const date2 = new Date(d2);
@@ -25,9 +25,8 @@ const diffTime = (d1, d2) => {
   }
 };
 
-export {
-  formatTime,
-  formatNumberToTwoDigit,
-  diffTime,
+export const copyToClipboard = (text) => {
+  navigator.clipboard.writeText(text);
 };
+
 export default formatTime;
