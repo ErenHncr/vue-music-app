@@ -32,7 +32,7 @@ export default {
         state.sound.unload();
       }
       commit('newSong', payload);
-      state.sound.volume(0.3);
+      state.sound.volume(0.1);
       state.sound.play();
 
       state.sound.on('play', () => {
