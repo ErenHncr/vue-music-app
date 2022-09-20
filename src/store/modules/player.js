@@ -8,7 +8,7 @@ export default {
     sound: {},
     seek: '00:00',
     duration: '00:00',
-    playerProgress: '0%',
+    playerProgress: 0,
   },
   mutations: {
     newSong: (state, payload) => {
@@ -21,7 +21,7 @@ export default {
     updatePosition: (state) => {
       state.seek = formatTime(state.sound.seek());
       state.duration = formatTime(state.sound.duration());
-      state.playerProgress = `${(state.sound.seek() / state.sound.duration()) * 100}%`;
+      state.playerProgress = (state.sound.seek() / state.sound.duration()) * 100;
     },
   },
   actions: {

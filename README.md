@@ -33,15 +33,11 @@ yarn lint
 # Apple Music Clone
 
 ### Todos
-- [ ] View: Browse
-  - [ ] minimal design(work in progress)
-    - [x] play/pause button with functionality
-    - [x] more button with functionality
-  - [ ] scroll snap(maybe)
-  - [ ] add infinite scroll when available
-  - [ ] use composables for scroll to bottom(https://vuejs.org/guide/reusability/composables.html)
-- [ ] Player component
-  - [ ] minimal design
+- [ ] Header
+  - [ ] Signed in user
+    - [ ] Create Playback component(work in progress)
+      - [ ] update playback progress component absolute
+    - [ ] Create profile component
 - [ ] View: Manage
   - [ ] minimal design
 
@@ -66,5 +62,8 @@ yarn lint
   - [x] create forgot password form
   - [x] add error messages
   - [x] add forgot password functionality
- 
+- [x] View: Browse
+  - [x] minimal design
+    - [x] play/pause button with functionality
+    - [x] more button with functionality 
 
