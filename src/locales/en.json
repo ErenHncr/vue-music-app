@@ -22,6 +22,10 @@
     "browse": {
       "copyLink": "Copy Link",
       "linkCopied": "Link Copied"
+    },
+    "songDetail": {
+      "play": "Play",
+      "pause": "Pause"
     }
   },
   "auth": {
