@@ -2,15 +2,13 @@
 @import "variables.scss";
 @import "mixins.scss";
 
+:root {
+  color-scheme: dark;
+}
+
 body {
   font-family: $body-fontFamily;
   color: $body-color;
-}
-
-@media (prefers-color-scheme: dark) {
-  body {
-    color: $body-color;
-  }
 }
 
 a {
@@ -39,6 +37,10 @@ a {
   background-color: $pageBg;
   overflow-x: hidden;
   overflow-y: auto;
+    
+  .header[data-song="true"] ~ .browse {
+    margin-top: 55px !important;
+  }
 }
 
 .svg-white {
