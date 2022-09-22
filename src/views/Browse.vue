@@ -78,7 +78,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang='scss' scoped>
 .browse {
   width: 100%;
   max-width: 1680px;

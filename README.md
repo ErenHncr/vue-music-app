@@ -35,9 +35,10 @@ yarn lint
 ### Todos
 - [ ] Header
   - [ ] Signed in user
-    - [ ] Create Playback component(work in progress)
-      - [ ] update playback progress component absolute
     - [ ] Create profile component
+    - [x] Create Playback component(work in progress)
+- [ ] View: Song
+  - [ ] minimal design
 - [ ] View: Manage
   - [ ] minimal design
 

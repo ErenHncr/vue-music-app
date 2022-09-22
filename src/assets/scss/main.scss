@@ -26,19 +26,17 @@ a {
   display: flex;
   flex-direction: row;
   height: 100vh;
-  // height: calc(100vh - 64px);
 }
 
 .page-container {
   display: flex;
   flex-direction: column;
   width: 100%;
-  // height: 100%;
   background-color: $pageBg;
   overflow-x: hidden;
   overflow-y: auto;
-    
-  .header[data-song="true"] ~ .browse {
+
+  .header[data-song="true"] ~ section {
     margin-top: 55px !important;
   }
 }
