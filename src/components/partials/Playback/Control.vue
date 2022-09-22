@@ -4,11 +4,25 @@
       <button
         class='playback-controls__directionals-btn'
         aria-label='Play'
-        title='Play'
+        :title="
+          isPlaying ? $t('views.songDetail.pause') : $t('views.songDetail.play')
+        "
         @click.prevent.stop='onToggleAudio'
       >
-        <img v-show='!isPlaying' class='svg-white' :src='playLgSVG' width='32' height='32' />
-        <img v-show='isPlaying' class='svg-white' :src='pauseSVG' width='32' height='32' />
+        <img
+          v-show='!isPlaying'
+          class='svg-white'
+          :src='playLgSVG'
+          width='32'
+          height='32'
+        />
+        <img
+          v-show='isPlaying'
+          class='svg-white'
+          :src='pauseSVG'
+          width='32'
+          height='32'
+        />
       </button>
     </div>
   </div>
@@ -17,8 +31,8 @@
     <img
       class='playback-display__cover'
       src='https://picsum.photos/250'
-      width="44"
-      height="44"
+      width='44'
+      height='44'
     />
     <div class='playback-display__container'>
       <span class='song-name'>
@@ -53,12 +67,13 @@ export default {
     const onToggleAudio = () => {
       store.dispatch('player/toggleAudio');
     };
+
     return {
+      playLgSVG,
+      pauseSVG,
       currentSong,
       isPlaying,
       onToggleAudio,
-      playLgSVG,
-      pauseSVG,
     };
   },
 };
@@ -110,17 +125,27 @@ export default {
     flex-direction: column;
     width: inherit;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     background-color: rgb(77, 77, 77);
     height: 100%;
     border-radius: 0 2px 2px 0;
+    overflow: hidden;
 
     .song-name {
+      max-width: calc(100% - 20px);
       color: rgba(#fff, .92);
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      margin-top: 4px;
     }
 
     .artist-name {
+      max-width: calc(100% - 20px);
       color: rgba(#fff, .64);
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
     }
   }
 }

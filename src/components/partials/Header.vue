@@ -1,13 +1,16 @@
 <template>
-  <header class='header'>
-    <BaseButton
-      v-if='userLoggedIn'
-      class='header__btn-signin'
-      color='secondary'
-      @onClick='openAuthModal'
-      >
-      {{ $t('header.signin') }}
-    </BaseButton>
+  <header class='header' :data-song='Boolean(currentSong?.url)'>
+    <PlaybackControl v-if='!userLoggedIn' />
+    <div class='header__auth'>
+      <BaseButton
+        v-if='userLoggedIn'
+        class='header__btn-signin'
+        color='secondary'
+        @onClick='openAuthModal'
+        >
+        {{ $t('header.signin') }}
+      </BaseButton>
+    </div>
   </header>
   <!-- Auth Modals -->
   <BaseModal :visible='auth.modal.container' @onCancel='closeAuthModal'>
@@ -58,11 +61,15 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex';
+import {
+  mapState,
+  mapMutations,
+} from 'vuex';
 
 import Login from '@/components/partials/Forms/Login.vue';
 import Register from '@/components/partials/Forms/Register.vue';
 import ForgotPassword from '@/components/partials/Forms/ForgotPassword.vue';
+import { PlaybackControl } from '@/components/partials/Playback';
 
 export default {
   name: 'Header',
@@ -70,13 +77,14 @@ export default {
     Login,
     Register,
     ForgotPassword,
+    PlaybackControl,
   },
   methods: {
     ...mapMutations('auth', ['openAuthModal', 'closeAuthModal', 'updateAuthModal']),
     signout() {
       this.$store.dispatch('signout');
       if (this.$route.meta.requiresAuth) {
-        this.$router.push({ name: 'home' });
+        this.$router.push({ name: 'listen-now' });
       }
     },
     changeLocale() {
@@ -97,6 +105,7 @@ export default {
     ...mapState({
       auth: (state) => state.auth,
       userLoggedIn: (state) => state.auth.userLoggedIn,
+      currentSong: (state) => state.player.currentSong,
     }),
     currentLocale() {
       return this.$i18n.t('locale');
@@ -117,22 +126,43 @@ export default {
 
 <style lang='scss' scoped>
 .header {
-  width: 100%;
-  max-width: 1680px;
   height: 55px;
-  display: flex;
-  flex-shrink: 0;
+  display: grid;
+  grid-template-columns: calc(30% - 22px) minmax(40%,900px) calc(30% + 22px);
+  grid-template-rows: 55px;
   align-items: center;
-  justify-content: flex-end;
   margin: 0 auto;
-  padding-inline-end: 20px;
   z-index: 1;
+
+  &[data-song='true'] {
+    width: -webkit-fill-available;
+    position: fixed;
+    top: 0;
+    background-color: rgba(45, 45, 45, .88);
+    backdrop-filter: saturate(50%) blur(20px);
+    box-shadow: 0 1px 0rgba(0,0,0,.05),
+      0 1px 3px rgba(#000, .1),
+      inset 0 -0.5px 0 rgba(#fff, .1);
+  }
+
+  &[data-song='false'] {
+    width: 100%;
+    max-width: 1680px;
+    padding-inline-end: 20px;
+  }
+
+  &__auth {
+    margin-left: auto;
+    grid-column-start: 3;
+  }
 
   &__btn-signin {
     height: 28px;
     padding: 6px 12px;
     border-radius: 6px;
-    letter-spacing: 0.004em;
+    margin-left: auto;
+    font-weight: 500;
+    letter-spacing: 0.4px;
   }
 
   &__btn-register {
