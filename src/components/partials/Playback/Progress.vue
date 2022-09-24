@@ -117,7 +117,17 @@ export default {
 
     visibility: hidden;
 
+    &-seek, &-remaining {
+      width: 50px;
+    }
+
+    &-seek {
+      text-align: left;
+    }
+
     &-remaining {
+      text-align: right;
+
       &::before {
         content: '-'
       }
