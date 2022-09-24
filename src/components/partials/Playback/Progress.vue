@@ -17,19 +17,20 @@
       >
       </span>
     </span>
-    <!-- <div class='web-chrome-playback-lcd__timing typography-system-10'>
+    <div class='playback-progress__time'>
       <div
-        class='web-chrome-playback-lcd__playback-time'
-        aria-label='Elapsed 0:30'
+        class='playback-progress__time-seek'
+        :aria-label='"Elapsed" + seek'
       >
+        {{ seek }}
       </div>
       <div
-        class='web-chrome-playback-lcd__time-end web-chrome-playback-lcd__time-end--remaining'
-        aria-label='Remaining 1:30'
+        class='playback-progress__time-remaining'
+        :aria-label='"Remaining" + remaining'
       >
-        1:30
+        {{ remaining }}
       </div>
-    </div> -->
+    </div>
   </div>
 </template>
 
@@ -43,18 +44,22 @@ export default {
     const store = useStore();
 
     const playbackProgress = computed(() => store.state.player.playerProgress);
+    const seek = computed(() => store.state.player.seek);
+    const remaining = computed(() => store.state.player.remaining);
 
     const updateSeek = (e) => store.dispatch('player/updateSeek', e);
 
     return {
       playbackProgress,
+      seek,
+      remaining,
       updateSeek,
     };
   },
 };
 </script>
 
-<style lang='scss' scoped>
+<style lang='scss'>
 .playback-progress {
   &__container {
     position: absolute;
@@ -94,6 +99,28 @@ export default {
       background-color: #7c7c7c;
       cursor: pointer;
       visibility: hidden;
+    }
+  }
+
+  &__time {
+    width: 100%;
+    position: absolute;
+    bottom: 3px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0 6px;
+
+    color: rgba(255, 255, 255, .4);
+    font-size: 10px;
+    font-weight: 400;
+
+    visibility: hidden;
+
+    &-remaining {
+      &::before {
+        content: '-'
+      }
     }
   }
 }

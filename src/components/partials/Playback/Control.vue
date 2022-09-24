@@ -79,7 +79,7 @@ export default {
 };
 </script>
 
-<style lang='scss' scoped>
+<style lang='scss'>
 .playback-controls {
   height: inherit;
 
@@ -111,6 +111,16 @@ export default {
   font-weight: 400;
   line-height: 1rem;
   letter-spacing: .75px;
+
+  &:hover {
+    .artist-name {
+      max-width: calc(100% - 100px);
+    }
+
+    .playback-progress__time {
+      visibility: visible;
+    }
+  }
 
   &__cover {
     object-fit: cover;

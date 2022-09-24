@@ -8,6 +8,7 @@ export default {
     sound: {},
     seek: '00:00',
     duration: '00:00',
+    remaining: '00:00',
     playerProgress: 0,
   },
   mutations: {
@@ -21,6 +22,7 @@ export default {
     updatePosition: (state) => {
       state.seek = formatTime(state.sound.seek());
       state.duration = formatTime(state.sound.duration());
+      state.remaining = formatTime(state.sound.duration() - state.sound.seek());
       state.playerProgress = (state.sound.seek() / state.sound.duration()) * 100;
     },
   },
