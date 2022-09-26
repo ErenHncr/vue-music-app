@@ -116,6 +116,8 @@ export default {
     font-weight: 400;
 
     visibility: hidden;
+    opacity: 0;
+    transition: all .25s;
 
     &-seek, &-remaining {
       width: 50px;

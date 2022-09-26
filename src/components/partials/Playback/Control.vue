@@ -2,7 +2,7 @@
   <div v-if='currentSong?.uid' class='playback-controls'>
     <div class='playback-controls__directionals'>
       <button
-        class='playback-controls__directionals-btn'
+        class='playback-controls__directionals-button'
         aria-label='Play'
         :title="
           isPlaying ? $t('views.songDetail.pause') : $t('views.songDetail.play')
@@ -39,7 +39,7 @@
         {{ currentSong?.modified_name }}
       </span>
       <span class='artist-name'>
-        {{ 'Eren Hançer' ?? currentSong?.artist_name }}
+        {{ currentSong?.artist_name }}
       </span>
       <Progress />
     </div>
@@ -90,12 +90,16 @@ export default {
     justify-content: flex-end;
     padding: 0 .95rem;
 
-    &-btn {
+    &-button {
       all: unset;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
+
+      &:focus, &:focus-visible, &:focus-within {
+        outline: none;
+      }
     }
   }
 }
@@ -119,6 +123,7 @@ export default {
 
     .playback-progress__time {
       visibility: visible;
+      opacity: 1;
     }
   }
 

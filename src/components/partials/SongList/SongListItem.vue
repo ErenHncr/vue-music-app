@@ -2,32 +2,30 @@
   <li  class='song-list_item'>
     <router-link tabindex="-1" :to="{ name: 'song', params: { id: song.docID } }">
       <div class='song-list_item-controls' tabindex="0">
-        <img tabindex="-1" class='song-list_item-controls_cover' src='https://picsum.photos/250' />
+        <!-- TODO: update image url with song cover -->
+        <img
+          tabindex="-1"
+          class='song-list_item-controls_cover'
+          src='https://picsum.photos/250'
+        />
         <div tabindex="-1" class='song-list_item-controls_actions'>
           <button
             tabindex="-1"
             class='song-list_item-controls_actions-play'
-            @click.prevent="onPlaySong"
+            @click.prevent="onPlayAudio"
           >
             <img
-              v-if="!isSongPlaying"
               class='svg-white'
               :src='playSVG'
               width='30'
               height='30'
             />
-            <img
-              v-if="isSongPlaying"
-              class='svg-white pause'
-              :src='pauseSVG'
-              width='19'
-              height='19'
-            />
           </button>
           <button
             tabindex="-1"
             class='song-list_item-controls_actions-more'
-            @click.prevent="showOptions = !showOptions">
+            @click.prevent="showOptions = !showOptions"
+          >
             <img
               class='svg-white'
               :src='moreSVG'
@@ -43,7 +41,9 @@
                 :data-id='song.docID'
                 @click.prevent.stop='copySongUrl'
               >
-                {{ isLinkCopied ? $t('views.browse.linkCopied') :  $t('views.browse.copyLink') }}
+                {{ isLinkCopied
+                  ? $t('views.browse.linkCopied')
+                  : $t('views.browse.copyLink') }}
                 <img
                   class='svg-white'
                   :src='linkSVG'
@@ -56,10 +56,16 @@
         </div>
       </div>
       <span
-        class='song-list_item-name'
-        :title='song.modified_name'
+        class='song-list_item__song-name'
+        :title='song?.modified_name'
       >
-        {{song.modified_name}}
+        {{song?.modified_name}}
+      </span>
+      <span
+        class='song-list_item__artist-name'
+        :title='song?.artist_name'
+      >
+        {{ song?.artist_name }}
       </span>
     </router-link>
   </li>
@@ -69,14 +75,12 @@
 import {
   ref,
   toRef,
-  computed,
 } from 'vue';
 import { useStore } from 'vuex';
 
 import { copyToClipboard } from '@/includes/helper';
 
 import playSVG from '@/assets/svg/play.svg';
-import pauseSVG from '@/assets/svg/pause.svg';
 import moreSVG from '@/assets/svg/more.svg';
 import linkSVG from '@/assets/svg/link.svg';
 
@@ -95,14 +99,10 @@ export default {
     const showOptions = ref(false);
     const isLinkCopied = ref(false);
 
-    const currentSong = computed(() => store.state.player.currentSong);
-    const playing = computed(() => store.getters?.['player/playing']);
-    const isSongPlaying = computed(() => playing.value
-      && song.value?.url === currentSong.value?.url);
-
     const copySongUrl = (element) => {
       const songId = element.target.getAttribute('data-id');
       const url = `${window.location.origin}/song/${songId}`;
+
       copyToClipboard(url);
 
       isLinkCopied.value = true;
@@ -112,28 +112,19 @@ export default {
       }, 1400);
     };
 
-    const onPlaySong = () => {
+    const onPlayAudio = () => {
       const songItem = song.value;
-      const songItemUrl = songItem?.url;
-      const currentSongUrl = currentSong.value?.url;
-
-      if (songItemUrl !== currentSongUrl) {
-        store.dispatch('player/newSong', songItem);
-      } else {
-        store.dispatch('player/toggleAudio');
-      }
+      store.dispatch('player/newSong', songItem);
     };
 
     return {
-      isSongPlaying,
+      playSVG,
+      moreSVG,
+      linkSVG,
       showOptions,
       isLinkCopied,
       copySongUrl,
-      onPlaySong,
-      playSVG,
-      pauseSVG,
-      moreSVG,
-      linkSVG,
+      onPlayAudio,
     };
   },
 };
@@ -156,12 +147,11 @@ export default {
     position: relative;
     border-radius: $item-radius + 2px;
 
-    &:is(:hover, :focus, :focus-within) {
+    &:is(:hover, :focus, :focus-visible) {
       & .song-list_item-controls {
         &_actions {
           background-color: rgba(51, 51, 51, .3);
           visibility: visible;
-          transition: all .3s;
         }
       }
     }
@@ -187,6 +177,7 @@ export default {
       left: 0;
       visibility: hidden;
       color: white;
+      transition: background-color .3s;
 
       &-play, &-more {
         all: unset;
@@ -209,11 +200,6 @@ export default {
 
       &-play {
         left: 10px;
-
-        img.pause {
-          margin-top: .7px;
-          margin-left: .7px;
-        }
       }
 
       &-more {
@@ -223,6 +209,7 @@ export default {
           display: flex;
           flex-direction: column;
           position: absolute;
+          top: 30px;
           right: 0;
           min-width: 140px;
           color: rgba(255, 255, 255, .85);
@@ -257,22 +244,31 @@ export default {
     }
   }
 
-  &-name {
+  &__song-name, &__artist-name {
     display: -webkit-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-word;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+
     font-size: .75rem;
     font-weight: 400;
     line-height: 1.25;
     letter-spacing: .4px;
-    color: rgba(#fff, .92);
-    word-break: break-word;
-    overflow: hidden;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    margin-top: 6px;
 
     &:hover {
       text-decoration: underline;
     }
+  }
+
+  &__song-name {
+    color: rgba(#fff, .92);
+    margin-top: 6px;
+  }
+
+  &__artist-name {
+    color: rgba(#fff, .64);
   }
 }
 </style>
