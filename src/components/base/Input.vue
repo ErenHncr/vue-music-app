@@ -68,9 +68,5 @@ export default {
       box-shadow: 0 0 0 1px #0070c9;
     }
   }
-
-  // &:focus-visible {
-  //   box-shadow: 0 0 0 4px rgba(250, 88, 106, .6);
-  // }
 }
 </style>
