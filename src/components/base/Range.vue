@@ -3,8 +3,12 @@
     type='range'
     class='input-range'
     :name='name'
-    v-model='value'
-    :style='{ "--range-value": `${value}%` }'
+    :min='min'
+    :max='max'
+    :step='step'
+    :value='value'
+    v-model='inputValue'
+    :style='{ "--range-value": `${inputValue * 100}%` }'
   />
 </template>
 
@@ -17,9 +21,29 @@ export default {
       required: false,
       default: '',
     },
+    min: {
+      type: Number,
+      required: false,
+      default: 0,
+    },
+    max: {
+      type: Number,
+      required: false,
+      default: 1,
+    },
+    step: {
+      type: Number,
+      required: false,
+      default: 0.01,
+    },
+    value: {
+      type: Number,
+      required: false,
+    },
   },
-  data() {
-    return { value: 0 };
+  data(props) {
+    const { value } = props;
+    return { inputValue: value };
   },
 };
 </script>

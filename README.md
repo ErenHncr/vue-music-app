@@ -35,12 +35,17 @@ yarn lint
 ### Todos
 - [ ] Header
   - [ ] Signed in user
+    - [ ] Update sign in button height and font properties with apple music 
     - [ ] Create profile component
-    - [x] Create Playback component(work in progress)
+    - [ ] Create volume control component
+    - [x] Create Playback component
+      - [x] Add seek and duration values
 - [ ] View: Song
   - [ ] minimal design
 - [ ] View: Manage
   - [ ] minimal design
+- [ ] Refactor: update picsum.photos with song cover url
+- [ ] Refactor: use composables for common use of functions
 
 ### Completed ✓
 - [x] add overflow scroll and style for page container
