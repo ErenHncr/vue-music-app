@@ -10,6 +10,7 @@ export default {
     duration: '00:00',
     remaining: '00:00',
     playerProgress: 0,
+    volume: 0.5,
   },
   mutations: {
     newSong: (state, payload) => {
@@ -25,6 +26,11 @@ export default {
       state.remaining = formatTime(state.sound.duration() - state.sound.seek());
       state.playerProgress = (state.sound.seek() / state.sound.duration()) * 100;
     },
+    updateVolume: (state, payload) => {
+      if (state?.sound?.volume) {
+        state.sound.volume(payload);
+      }
+    },
   },
   actions: {
     async newSong({
@@ -34,7 +40,7 @@ export default {
         state.sound.unload();
       }
       commit('newSong', payload);
-      state.sound.volume(0.1);
+      state.sound.volume(state.volume);
       state.sound.play();
 
       state.sound.on('play', () => {
