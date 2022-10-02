@@ -78,7 +78,7 @@ export default {
     border-radius: 1.5px;
     background-position: center;
     background-repeat: no-repeat;
-    background-size: 100% 3px;
+    background-size: 100% 4px;
     background-image: linear-gradient(
       90deg,
       transparent var(--range-value),
