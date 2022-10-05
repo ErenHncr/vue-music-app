@@ -5,10 +5,10 @@ import store from '@/store';
 const Home = () => import('@/views/Home.vue');
 const About = () => import('@/views/About.vue');
 const Manage = () => import(/* webpackChunkName: "groupedChunk" */'@/views/Manage.vue');
-const Song = () => import(/* webpackChunkName: "groupedChunk" */'@/views/Song.vue');
 
-const Browse = () => import('@/views/Browse.vue');
 const ListenNow = () => import('@/views/ListenNow.vue');
+const Browse = () => import('@/views/Browse.vue');
+const Song = () => import('@/views/Song.vue');
 
 const routes = [
   {
@@ -36,11 +36,6 @@ const routes = [
     path: '/manage',
     redirect: { name: 'manage' },
   },
-  {
-    name: 'song',
-    path: '/song/:id',
-    component: Song,
-  },
   // New routes
   {
     name: 'listen-now',
@@ -51,6 +46,11 @@ const routes = [
     name: 'browse',
     path: '/browse',
     component: Browse,
+  },
+  {
+    name: 'song',
+    path: '/song/:id',
+    component: Song,
   },
   {
     path: '/:catchAll(.*)',
