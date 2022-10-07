@@ -1,230 +1,122 @@
 <template>
-  <main>
-    <!-- Music Header -->
-    <section class="w-full mb-8 py-14 text-center text-white relative">
-      <div class="absolute inset-0 w-full h-full box-border bg-contain music-bg"
-        style="background-image: url(/assets/img/song-header.png)">
-      </div>
-      <div class="container mx-auto flex items-center">
-        <!-- Play/Pause Button -->
-        <button
-          type="button"
-          id="play-button"
-          class="z-50 h-24 w-24 text-3xl bg-white text-black rounded-full
-          focus:outline-none"
-          @click.prevent="onToggleAudio"
-        >
-          <i class="fas" :class="{
-            'fa-circle-notch fa-spin': loading,
-            'fa-play': !isCurrentSongPlaying && !loading,
-            'fa-pause': isCurrentSongPlaying && !loading,
-          }"></i>
-        </button>
-        <div class="z-50 text-left ml-8">
-          <!-- Song Info -->
-          <div class="text-3xl font-bold">{{ song.modified_name}}</div>
-          <div>{{ song.genre }}</div>
-          {{ $n(1, 'currency') }}
-        </div>
-      </div>
-    </section>
-    <!-- Form -->
-    <section id="comments" class="container mx-auto mt-6">
-      <div class="bg-white rounded border border-gray-200 relative flex flex-col">
-        <div class="px-6 pt-6 pb-5 font-bold border-b border-gray-200">
-          <!-- Comment Count -->
-          <span class="card-title">
-            {{ $t('song.comment_count', { count: song?.comment_count })}}
-          </span>
-          <i class="fa fa-comments float-right text-green-400 text-2xl"></i>
-        </div>
-        <div class="p-6">
-          <div
-            class="text-white text-center font-bold p-4 mb-4"
-            v-if="comment_show_alert"
-            :class="comment_alert_variant"
-          >
-            {{ comment_alert_message }}
-          </div>
-            <VeeForm
-              v-if="userLoggedIn"
-              :validation-schema="schema"
-              @submit="addComment"
-            >
-            <VeeField
-              as="textarea"
-              name="comment"
-              class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition
-                duration-500 focus:outline-none focus:border-black rounded mb-4"
-              placeholder="Your comment here..." />
-            <VeeErrorMessage
-              class="text-red-600"
-              name="comment" />
-            <button
-              type="submit"
-              class="py-1.5 px-3 rounded text-white bg-green-600 block"
-              :disabled="comment_in_submission"
-            >
-              Submit
-            </button>
-          </VeeForm>
-          <!-- Sort Comments -->
-          <select
-            v-model="sort"
-            class="block mt-4 py-1.5 px-3 text-gray-800 border border-gray-300 transition
-            duration-500 focus:outline-none focus:border-black rounded"
-          >
-            <option value="1">Latest</option>
-            <option value="2">Oldest</option>
-          </select>
-        </div>
-      </div>
-    </section>
-    <!-- Comments -->
-    <ul class="container mx-auto">
-      <li
-        v-for="comment in sortedComments"
-        :key="comment.docID"
-        class="p-6 bg-gray-50 border border-gray-200"
+  <section class='song-detail'>
+    <img
+      class='song-detail__cover'
+      src="https://picsum.photos/270"
+      height="270"
+      width="270"
+    />
+    <div class='song-detail__description'>
+      <h1 class='song-name'>{{ song?.modified_name }}</h1>
+      <div class='artist-name'>{{ song?.artist_name }}</div>
+      <BaseButton
+        color='secondary'
+        class='play-button'
+        @onClick='onPlaySong'
       >
-        <!-- Comment Author -->
-        <div class="mb-5">
-          <div class="font-bold">{{ comment?.name }}</div>
-          <time>{{ comment?.datePosted }}</time>
-        </div>
-
-        <p>{{ comment?.content }}</p>
-      </li>
-    </ul>
-  </main>
+        <img
+          class='svg-white'
+          :src='playSVG'
+          width='36'
+          height='36'
+        />
+        {{ $t('views.songDetail.play') }}
+      </BaseButton>
+    </div>
+  </section>
 </template>
 
 <script>
-import {
-  auth, songsCollection, commentsCollection,
-} from '@/includes/firebase';
-import {
-  mapGetters, mapState, mapActions,
-} from 'vuex';
+import { ref } from 'vue';
+import { useStore } from 'vuex';
+
+import { songsCollection } from '@/includes/firebase';
+
+import playSVG from '@/assets/svg/play.svg';
+import pauseSVG from '@/assets/svg/pause.svg';
 
 export default {
-  name: 'Song',
-  data() {
+  name: 'SongDetail',
+  setup() {
+    const store = useStore();
+
+    const song = ref({});
+
+    const onPlaySong = () => {
+      const songItem = song.value;
+
+      store.dispatch('player/newSong', songItem);
+    };
+
     return {
-      loading: false,
-      song: {},
-      schema: { comment: 'required|min:3' },
-      comment_in_submission: false,
-      comment_show_alert: false,
-      comment_alert_variant: 'bg-blue-500',
-      comment_alert_message: 'Please wait! Your comment is being submitted',
-      comments: [],
-      sort: '1',
+      playSVG,
+      pauseSVG,
+      song,
+      onPlaySong,
     };
   },
-  computed: {
-    ...mapGetters(['playing']),
-    ...mapState({
-      userLoggedIn: (state) => state.auth.userLoggedIn,
-      currentSong: (state) => state.player.currentSong,
-    }),
-    sortedComments() {
-      return this.comments.slice().sort((a, b) => {
-        // Latest
-        if (this.sort === '1') {
-          return new Date(b?.datePosted) - new Date(a?.datePosted);
-        }
-        // Oldest
-        return new Date(a?.datePosted) - new Date(b?.datePosted);
-      });
-    },
-    isCurrentSongPlaying() {
-      return this.playing
-        && (Boolean(this.song?.url) && Boolean(this.currentSong?.url))
-        && this.song?.url === this.currentSong?.url;
-    },
-  },
-  async beforeRouteEnter(to, from, next) {
+  async beforeRouteEnter(to, _, next) {
     const docSnapshot = await songsCollection.doc(to.params.id).get();
 
     next((vm) => {
       if (!docSnapshot.exists) {
-        vm.$router.push({ name: 'home' });
+        vm.$router.push({ name: 'listen-now' });
         return;
-      }
-
-      const { sort } = vm.$route.query;
-      if (['1', '2'].includes(sort)) {
-        // eslint-disable-next-line no-param-reassign
-        vm.sort = sort;
       }
 
       // eslint-disable-next-line no-param-reassign
       vm.song = docSnapshot.data();
-      vm.getComments();
     });
-  },
-  methods: {
-    ...mapActions(['newSong', 'toggleAudio']),
-    // resetForm comes from VeeForm's submit function
-    async addComment(values, { resetForm }) {
-      this.comment_in_submission = true;
-      this.comment_show_alert = true;
-      this.comment_alert_variant = 'bg-blue-500';
-      this.comment_alert_message = 'Please wait! Your comment is being submitted';
-
-      const comment = {
-        content: values.comment,
-        datePosted: new Date().toString(),
-        sid: this.$route.params.id,
-        name: auth.currentUser.displayName,
-        uid: auth.currentUser.uid,
-      };
-
-      await commentsCollection.add(comment);
-
-      this.song.comment_count += 1;
-      await songsCollection.doc(this.$route.params.id)
-        .update({ comment_count: this.song.comment_count });
-
-      this.getComments();
-
-      this.comment_in_submission = false;
-      this.comment_alert_variant = 'bg-green-500';
-      this.comment_alert_message = 'Comment added!';
-
-      resetForm();
-    },
-    async getComments() {
-      const snapshots = await commentsCollection.where(
-        'sid', '==', this.$route.params.id,
-      ).get();
-
-      this.comments = [];
-
-      snapshots.forEach((doc) => {
-        this.comments.push({
-          docID: doc.id,
-          ...doc.data(),
-        });
-      });
-    },
-    onToggleAudio() {
-      if (this.currentSong?.url !== this.song?.url) {
-        this.loading = true;
-        this.newSong(this.song);
-        this.loading = false;
-      } else {
-        this.toggleAudio();
-      }
-    },
-  },
-  watch: {
-    sort(newValue) {
-      if (newValue !== this.$route.query.sort) {
-        this.$router.push({ query: { sort: newValue } });
-      }
-    },
   },
 };
 </script>
+
+<style lang='scss' scoped>
+.song-detail {
+  width: 100%;
+  max-width: 1680px;
+  margin: 0 auto;
+  padding: 2.5rem 2.5rem 0;
+  display: flex;
+  flex-direction: row;
+  gap: 2.125rem;
+
+  @include on-small {
+    padding: 0rem 1rem 0;
+  }
+
+  &__cover {
+    object-fit: cover;
+    border-radius: 6px;
+    box-shadow: 0 10px 20px 0 rgba(0, 0, 0, .3);
+  }
+
+  &__description {
+    display: flex;
+    flex-direction: column;
+    line-height: 2rem;
+
+    .song-name {
+      font-size: 1.625rem;
+      font-weight: 600;
+      margin-top: auto;
+    }
+
+    .artist-name {
+      font-size: 1.625rem;
+      font-weight: 400;
+      color: $nav-list-item-link-icon-color;
+      margin-bottom: auto;
+    }
+
+    .play-button {
+      min-width: 72px;
+      width: min-content;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      padding-left: 0;
+    }
+  }
+}
+</style>
