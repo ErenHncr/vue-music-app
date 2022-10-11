@@ -47,8 +47,15 @@ a {
 }
 
 .svg-red {
-  // #fa586a;
-  filter: invert(41%) sepia(33%) saturate(1762%) hue-rotate(313deg) brightness(112%) contrast(96%);
+  &-900 {
+    // #ff001c
+    filter: invert(11%) sepia(77%) saturate(6876%) hue-rotate(348deg) brightness(100%) contrast(113%);
+  }
+
+  &-800 {
+    // #fa586a;
+    filter: invert(41%) sepia(33%) saturate(1762%) hue-rotate(313deg) brightness(112%) contrast(96%);    
+  }
 }
 
 .svg-gray {
