@@ -23,7 +23,7 @@
           :to="{ name: item.routeName }"
         >
           <img
-            class="navigation-list-item-link-icon svg-red"
+            class="navigation-list-item-link-icon svg-red-800"
             :src="item.icon"
             width="24"
             height="24"
