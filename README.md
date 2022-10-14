@@ -41,8 +41,8 @@ yarn lint
       - [x] Create volume control component
     - [x] Create Playback component
       - [x] Add seek and duration values
-- [ ] View: Song
-  - [ ] minimal design
+- [X] View: Song
+  - [X] minimal design
 - [ ] View: Manage
   - [ ] minimal design
 - [ ] Refactor: update picsum.photos with song cover url
