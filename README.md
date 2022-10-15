@@ -37,6 +37,7 @@ yarn lint
   - [ ] Signed in user
     - [ ] Update sign in button height and font properties with apple music 
     - [ ] Create profile component
+      - [ ] add global dropdown component
     - [x] Create range component
       - [x] Create volume control component
     - [x] Create Playback component
