@@ -91,6 +91,7 @@ export default {
       try {
         await auth.signInWithEmailAndPassword(email, password);
         commit('authSuccess', email);
+        commit('closeAuthModal');
       } catch (error) {
         commit('authFail', error);
       }
