@@ -2,39 +2,18 @@ import { createRouter, createWebHistory } from 'vue-router';
 
 import store from '@/store';
 
-const Home = () => import('@/views/Home.vue');
-const About = () => import('@/views/About.vue');
-const Manage = () => import(/* webpackChunkName: "groupedChunk" */'@/views/Manage.vue');
-
 const ListenNow = () => import('@/views/ListenNow.vue');
 const Browse = () => import('@/views/Browse.vue');
 const Song = () => import('@/views/Song.vue');
+const Manage = () => import(/* webpackChunkName: "groupedChunk" */'@/views/Manage.vue');
 
 const routes = [
   {
-    name: 'home',
-    path: '/',
-    component: Home,
-  },
-  {
-    name: 'about',
-    path: '/about',
-    component: About,
-  },
-  {
     name: 'manage',
     path: '/manage-music',
-    // alias: '/manage',
+    alias: '/manage',
     meta: { requiresAuth: true },
     component: Manage,
-    beforeEnter: (to, from, next) => {
-      // console.log('Manage guard');
-      next();
-    },
-  },
-  {
-    path: '/manage',
-    redirect: { name: 'manage' },
   },
   // New routes
   {
@@ -53,26 +32,43 @@ const routes = [
     component: Song,
   },
   {
+    name: 'manage',
+    path: '/manage-music',
+    // alias: '/manage',
+    // meta: { requiresAuth: true },
+    component: Manage,
+    // beforeEnter: (to, from, next) => {
+    //   // console.log('Manage guard');
+    //   next();
+    // },
+  },
+  {
+    path: '/',
+    redirect: { name: 'listen-now' },
+  },
+  {
+    path: '/manage',
+    redirect: { name: 'manage' },
+  },
+  {
     path: '/:catchAll(.*)',
-    redirect: { name: 'home' },
+    redirect: { name: 'listen-now' },
   },
 ];
 
 const router = createRouter({
   history: createWebHistory(),
   routes,
-  // linkExactActiveClass: 'text-yellow-500',
 });
 
 router.beforeEach((to, from, next) => {
-  // console.log(to.matched);
   if (!to.matched.some((record) => record.meta.requiresAuth)) {
     next();
     return;
   }
   if (store.state.auth.userLoggedIn) {
     next();
-  } else next({ name: 'home' });
+  } else next({ name: 'listen-now' });
 });
 
 export default router;
