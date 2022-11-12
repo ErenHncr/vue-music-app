@@ -1,3 +1,4 @@
+// split this components to sub components for easy to use
 <template>
   <header class='header' :data-song='Boolean(currentSong?.url)'>
     <div class='header-wrapper'>
@@ -20,7 +21,7 @@
         </div>
         <div class='header__auth'>
           <BaseButton
-            v-if='userLoggedIn'
+            v-if='!userLoggedIn'
             class='header__btn-signin'
             color='secondary'
             @onClick='openAuthModal'
@@ -28,13 +29,13 @@
             {{ $t('header.signin') }}
           </BaseButton>
           <div
-            v-if='!userLoggedIn && currentSong?.uid'
+            v-if='userLoggedIn'
             class='header__avatar'
           >
             <BaseButton
               class='header__avatar-btn'
               color='link'
-              @onClick='openAuthModal'
+              @onClick='toggleOptions'
               >
               <img
                 class='svg-red-800'
@@ -44,13 +45,20 @@
               />
             </BaseButton>
             <div
-              v-if="true"
+              v-if="showOptions"
               class='header__avatar-dropdown'
             >
               <ul>
-                <li>Manage</li>
-                <li>Settings</li>
-                <li>Sign Out</li>
+                <router-link
+                  :to="{ name: 'manage' }"
+                  custom
+                  v-slot="{ navigate }"
+                >
+                  <li @click="navigate">
+                    Manage
+                  </li>
+                </router-link>
+                <li @click="signout">Sign Out</li>
               </ul>
             </div>
           </div>
@@ -128,13 +136,17 @@ export default {
     PlaybackControl,
   },
   data() {
-    return { volumeSVG, avatarSVG };
+    return {
+      volumeSVG,
+      avatarSVG,
+      showOptions: false,
+    };
   },
   methods: {
     ...mapMutations('auth', ['openAuthModal', 'closeAuthModal', 'updateAuthModal']),
     ...mapMutations('player', ['updateVolume']),
     signout() {
-      this.$store.dispatch('signout');
+      this.$store.dispatch('auth/signout');
       if (this.$route.meta.requiresAuth) {
         this.$router.push({ name: 'listen-now' });
       }
@@ -155,6 +167,9 @@ export default {
     onUpdateVolume(e) {
       const { target: { value } } = e;
       this.updateVolume(value);
+    },
+    toggleOptions() {
+      this.showOptions = !this.showOptions;
     },
   },
   computed: {
@@ -262,6 +277,42 @@ export default {
 
     &-forgot {
       font-size: .93rem !important;
+    }
+  }
+
+  &__avatar {
+    position: relative;
+
+    &-dropdown {
+      background-color: rgba(45, 45, 45, 0.88);
+      min-width: 180px;
+      display: flex;
+      flex-direction: column;
+      position: absolute;
+      top: 2.5rem;
+      right: 0px;
+      border-radius: 6px;
+      border: 0.7px solid rgba(255, 255, 255, 0.2);
+      font-size: 13px;
+      font-weight: 300;
+      letter-spacing: 1px;
+      overflow: hidden;
+
+      & > ul {
+        & > li {
+          height: 32px;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          padding: 0 10px;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          cursor: pointer;
+
+          &:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+          }
+        }
+      }
     }
   }
 }
