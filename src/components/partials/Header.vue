@@ -28,40 +28,27 @@
             >
             {{ $t('header.signin') }}
           </BaseButton>
-          <div
+          <BaseDropdown
             v-if='userLoggedIn'
-            class='header__avatar'
+            :options='[
+              {
+                key: "manage",
+                label: "Manage",
+              },
+              {
+                key: "signout",
+                label: "Sign Out",
+              },
+            ]'
+            @onItemClick='onDropdownItemClick'
           >
-            <BaseButton
-              class='header__avatar-btn'
-              color='link'
-              @onClick='toggleOptions'
-              >
-              <img
-                class='svg-red-800'
-                :src='avatarSVG'
-                width='24'
-                height='24'
-              />
-            </BaseButton>
-            <div
-              v-if="showOptions"
-              class='header__avatar-dropdown'
-            >
-              <ul>
-                <router-link
-                  :to="{ name: 'manage' }"
-                  custom
-                  v-slot="{ navigate }"
-                >
-                  <li @click="navigate">
-                    Manage
-                  </li>
-                </router-link>
-                <li @click="signout">Sign Out</li>
-              </ul>
-            </div>
-          </div>
+            <img
+              class='svg-red-800'
+              :src='avatarSVG'
+              width='24'
+              height='24'
+            />
+          </BaseDropdown>
         </div>
       </div>
     </div>
@@ -145,6 +132,14 @@ export default {
   methods: {
     ...mapMutations('auth', ['openAuthModal', 'closeAuthModal', 'updateAuthModal']),
     ...mapMutations('player', ['updateVolume']),
+    onDropdownItemClick(key) {
+      if (key === 'manage') {
+        this.$router.push({ name: key });
+      }
+      if (key === 'signout') {
+        this.signout();
+      }
+    },
     signout() {
       this.$store.dispatch('auth/signout');
       if (this.$route.meta.requiresAuth) {
@@ -277,42 +272,6 @@ export default {
 
     &-forgot {
       font-size: .93rem !important;
-    }
-  }
-
-  &__avatar {
-    position: relative;
-
-    &-dropdown {
-      background-color: rgba(45, 45, 45, 0.88);
-      min-width: 180px;
-      display: flex;
-      flex-direction: column;
-      position: absolute;
-      top: 2.5rem;
-      right: 0px;
-      border-radius: 6px;
-      border: 0.7px solid rgba(255, 255, 255, 0.2);
-      font-size: 13px;
-      font-weight: 300;
-      letter-spacing: 1px;
-      overflow: hidden;
-
-      & > ul {
-        & > li {
-          height: 32px;
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          padding: 0 10px;
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          cursor: pointer;
-
-          &:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-          }
-        }
-      }
     }
   }
 }
