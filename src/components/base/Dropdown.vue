@@ -18,6 +18,12 @@
           @click.prevent='onDropdownItemClick(option?.key, option?.onClick)'
         >
           {{ option?.label }}
+          <img
+            v-if='option?.icon'
+            tabindex='-1'
+            :src='option?.icon'
+            class='svg-gray'
+          />
         </li>
       </ul>
     </div>
@@ -99,6 +105,7 @@ export default {
         display: flex;
         flex-direction: row;
         align-items: center;
+        justify-content: space-between;
         padding: 0 10px;
         border: 1px solid rgba(255, 255, 255, 0.1);
         cursor: pointer;
