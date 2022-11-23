@@ -10,15 +10,27 @@
           :key='index'
           class='list-item'
         >
+          <!-- TODO: update image url with song cover -->
+          <img
+            tabindex="-1"
+            src='https://picsum.photos/42'
+            class='list-item__cover'
+          />
           <span class='list-item__name'>{{ song?.modified_name }}</span>
           <BaseDropdown
+            class='list-item__options'
             type='secondary'
             :options='[
               {
                 key: "edit",
                 label: "Edit",
               },
+              {
+                key: "delete",
+                label: "Delete",
+              },
             ]'
+             @onItemClick='onDropdownItemClick'
           >
             <img
               class='svg-white'
@@ -31,10 +43,16 @@
       </ul>
     </div>
   </section>
+  <BaseModal :visible='modalKey' @onCancel='onCancel'>
+    <EditForm /> // component will be added
+    <DeleteForm /> // component will be added
+  </BaseModal>
 </template>
 
 <script>
 import { songsCollection, auth } from '@/includes/firebase';
+import playSVG from '@/assets/svg/play.svg';
+import linkSVG from '@/assets/svg/link.svg';
 import moreSVG from '@/assets/svg/more.svg';
 
 export default {
@@ -42,8 +60,11 @@ export default {
   components: {},
   data() {
     return {
+      modalKey: '',
       songs: [],
       unsavedFlag: false,
+      playSVG,
+      linkSVG,
       moreSVG,
     };
   },
@@ -55,6 +76,13 @@ export default {
     snapshot.forEach(this.addSong);
   },
   methods: {
+    onCancel() {
+      this.modalKey = '';
+    },
+    onDropdownItemClick(key) {
+      console.log(key);
+      this.modalKey = key;
+    },
     updateSong(index, values) {
       this.songs[index].modified_name = values?.modified_name;
       this.songs[index].genre = values?.genre;
@@ -127,14 +155,24 @@ export default {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    gap: 0.75rem;
+    font-size: 1rem;
     background-color: rgba(255, 255, 255, 0.1);
     border-radius: $default-border-radius;
-    padding: 0.5rem 0.75rem 0.5rem 1rem;
+    padding: 0.5rem 0.75rem 0.5rem 0.5rem;
     transition: background-color 0.25s;
     cursor: pointer;
 
     &:hover {
       background: rgba(255, 255, 255, 0.15);
+    }
+
+    &__cover {
+      border-radius: $default-border-radius;
+    }
+
+    &__options {
+      margin-left: auto;
     }
   }
 
