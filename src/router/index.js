@@ -6,6 +6,7 @@ const ListenNow = () => import('@/views/ListenNow.vue');
 const Browse = () => import('@/views/Browse.vue');
 const Song = () => import('@/views/Song.vue');
 const Manage = () => import(/* webpackChunkName: "groupedChunk" */'@/views/Manage.vue');
+const Manage2 = () => import(/* webpackChunkName: "groupedChunk" */'@/views/Manage/Manage.vue');
 
 const routes = [
   {
@@ -30,6 +31,11 @@ const routes = [
     name: 'song',
     path: '/song/:id',
     component: Song,
+  },
+  {
+    name: 'manage2',
+    path: '/manage2',
+    component: Manage2,
   },
   {
     name: 'manage',
