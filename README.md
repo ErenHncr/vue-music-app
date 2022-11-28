@@ -44,7 +44,7 @@ yarn lint
       - [x] Add seek and duration values
 - [X] View: Song
   - [X] minimal design
-- [ ] View: Manage
+- [ ] View: Manage(in progress)
   - [ ] minimal design
 - [ ] Refactor: update picsum.photos with song cover url
 - [ ] Refactor: use composables for common use of functions
