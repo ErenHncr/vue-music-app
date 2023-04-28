@@ -1,5 +1,9 @@
 {
   "locale": "English",
+  "globals": {
+    "delete": "Delete",
+    "cancel": "Cancel"
+  },
   "home": {
     "listen": "Listen to Great Music!"
   },
@@ -26,6 +30,34 @@
     "songDetail": {
       "play": "Play",
       "pause": "Pause"
+    },
+    "manage": {
+      "editSong": {
+        "coverFile": {
+          "label": "Cover",
+          "placeholder": "Drop your cover image here or click to upload."
+        },
+        "songFile": {
+          "label": "Song",
+          "placeholder": "Drop your song file here or click to upload."
+        },
+        "songTitle": {
+          "label": "Song Title",
+          "placeholder": "Enter Song Title"
+        },
+        "genre": {
+          "label": "Genre",
+          "placeholder": "Enter Genre"
+        },
+        "artistName": {
+          "label": "Artist Name",
+          "placeholder": "Enter Artist Name"
+        },
+        "submit": "Save Changes"
+      },
+      "deleteSong": {
+        "content": "Are you sure you want to delete the song?"
+      }
     }
   },
   "auth": {

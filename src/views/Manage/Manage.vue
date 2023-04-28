@@ -30,7 +30,7 @@
                 label: "Delete",
               },
             ]'
-             @onItemClick='onDropdownItemClick'
+             @onItemClick='(key) => onDropdownItemClick(key, index)'
           >
             <img
               class='svg-white'
@@ -43,24 +43,53 @@
       </ul>
     </div>
   </section>
-  <BaseModal :visible='modalKey' @onCancel='onCancel'>
-    <EditForm /> // component will be added
-    <DeleteForm /> // component will be added
+  <BaseModal :visible="modal?.key === 'edit'" @onCancel='onCancel'>
+    <SongForm :pending="pending" title="Edit Song" :hideInputs="['song_file']" />
+  </BaseModal>
+  <BaseModal :visible="modal?.key === 'delete'" @onCancel='onCancel'>
+    <div class='text-lg ml-6 mb-4'>
+      {{ $t("views.manage.deleteSong.content") }}
+    </div>
+    <div class='flex flex-row gap-x-2 justify-end absolute bottom-6 right-8'>
+      <BaseButton
+        :disabled='pending'
+        class='delete-modal__btn'
+        color='text'
+        @onClick='onCancel'
+        >
+         {{ $t("globals.cancel") }}
+      </BaseButton>
+      <BaseButton
+        :disabled='pending'
+        class='delete-modal__btn'
+        color='delete'
+        @onClick='onDeleteSong'
+        >
+        {{ $t("globals.delete") }}
+      </BaseButton>
+    </div>
   </BaseModal>
 </template>
 
 <script>
-import { songsCollection, auth } from '@/includes/firebase';
+import {
+  songsCollection, auth, storage,
+} from '@/includes/firebase';
+import SongForm from '@/components/partials/Forms/Song.vue';
 import playSVG from '@/assets/svg/play.svg';
 import linkSVG from '@/assets/svg/link.svg';
 import moreSVG from '@/assets/svg/more.svg';
 
 export default {
   name: 'Manage',
-  components: {},
+  components: { SongForm },
   data() {
     return {
-      modalKey: '',
+      pending: false,
+      modal: {
+        key: '',
+        index: null,
+      },
       songs: [],
       unsavedFlag: false,
       playSVG,
@@ -77,11 +106,16 @@ export default {
   },
   methods: {
     onCancel() {
-      this.modalKey = '';
+      this.modal = {
+        key: '',
+        index: null,
+      };
     },
-    onDropdownItemClick(key) {
-      console.log(key);
-      this.modalKey = key;
+    onDropdownItemClick(key, index) {
+      this.modal = {
+        key,
+        index,
+      };
     },
     updateSong(index, values) {
       this.songs[index].modified_name = values?.modified_name;
@@ -98,6 +132,21 @@ export default {
         };
         this.songs.push(song);
       }
+    },
+    async onDeleteSong() {
+      this.pending = true;
+      const song = this.songs?.[this.modal?.index];
+      const songIndex = this.modal?.index;
+      const storageRef = storage.ref();
+      const songRef = storageRef.child(`songs/${song?.original_name}`);
+      // delete song from storage
+      await songRef.delete();
+      // delete song from document
+      await songsCollection.doc(song?.docID).delete();
+      // remove song from array
+      this.removeSong(songIndex);
+      this.onCancel();
+      this.pending = false;
     },
     updateUnsavedFlag(value) {
       this.unsavedFlag = value;
@@ -183,4 +232,13 @@ export default {
     padding-bottom: 13px;
   }
 }
+
+.delete-modal {
+    &__btn {
+      font-size: 1rem;
+      &:hover {
+        background: rgba(255, 255, 255, 0.1);
+      }
+    }
+  }
 </style>

@@ -15,7 +15,10 @@
          <li
           v-for="option in options"
           :key="option?.key"
-          @click.prevent='onDropdownItemClick(option?.key, option?.onClick)'
+          @click.stop='
+            showOptions = false
+            onDropdownItemClick(option?.key, option?.onClick);
+          '
         >
           {{ option?.label }}
           <img

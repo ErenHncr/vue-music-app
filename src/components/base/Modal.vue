@@ -4,6 +4,7 @@
     id='modal'
     class='fixed z-10 inset-0 overflow-y-auto'
     v-if="visible"
+    @click.stop='onCancel'
   >
     <div
       class='
@@ -41,7 +42,7 @@
           '
       >
         <!-- Add margin if you want to see some of the overlay behind the modal-->
-        <div class='text-left p-5 h-full sm:block'>
+        <div class='text-left p-5 h-full sm:block' @click.stop>
           <!--Modal Header-->
           <div class='flex justify-between items-start pb-1 h-16'>
             <!-- Modal Close Button -->

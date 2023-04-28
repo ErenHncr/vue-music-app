@@ -90,5 +90,13 @@ export default {
       text-decoration: underline;
     }
   }
+
+  &[data-color='delete'] {
+    @extend .btn-delete;
+  }
+
+  &[data-color='text'] {
+    @extend .btn-text;
+  }
 }
 </style>
